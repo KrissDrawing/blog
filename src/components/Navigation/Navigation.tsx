@@ -39,7 +39,7 @@ const Navigation = (props: Props) => {
   return (
     <NavigationWrapper>
       <NavigationList>
-        <NavigationLink to="/blog">Blog</NavigationLink>
+        <NavigationLink to="/articles">Blog</NavigationLink>
         <NavigationLink to="/about">About</NavigationLink>
         <NavigationLink to="/portfolio">Portfolio</NavigationLink>
       </NavigationList>
