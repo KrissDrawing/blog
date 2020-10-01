@@ -12,7 +12,6 @@ const NavigationWrapper = styled.div`
   position: fixed;
   top: 5%;
   width: 100vw;
-  font-family: "Montserrat";
   font-size: 2rem;
   color: white;
 `;
@@ -36,11 +35,17 @@ const NavigationLink = styled(Link)`
   }
 `;
 const LogoImage = styled.img`
-  filter: invert(100%);
+  /* filter: invert(100%); */
+  padding: 1px;
   margin: 0 20px;
   border-radius: 50%;
   background-color: white;
   box-shadow: 0px 0px 5px 2px rgba(255, 255, 255, 0.2);
+  transition: transform 0.2s ease-out;
+
+  &:hover {
+    transform: scale(1.2);
+  }
 `;
 const SocialsWrapper = styled.div`
   margin: 0 20px;
