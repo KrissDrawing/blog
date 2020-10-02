@@ -45,7 +45,7 @@ const InfoWrapper = styled.div<{ index: number }>`
 `;
 
 const BackgroundTest = styled.div`
-  width: 150%;
+  width: 100%;
   height: 30px;
   background-color: black;
   /* transform: translateY(50vh) rotate(45deg); */
