@@ -28,9 +28,11 @@ const NavigationLink = styled(Link)`
   color: white;
   text-decoration: none;
   transition: font-size 0.1s ease-out;
+  /* transition: transform 0.2s ease-out; */
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
 
   &:hover {
+    /* transform: scale(1.2); */
     font-size: 3rem;
   }
 `;

@@ -6,7 +6,7 @@ import Navigation from "../components/Navigation/Navigation";
 
 const AboutImage = styled(Image)`
   height: 100vh;
-  width: 800px;
+  width: 50vw;
 `;
 
 interface Props {

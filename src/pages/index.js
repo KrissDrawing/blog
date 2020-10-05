@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import Navigation from "../components/Navigation/Navigation";
 import { graphql } from "gatsby";
 import Image from "gatsby-image";
