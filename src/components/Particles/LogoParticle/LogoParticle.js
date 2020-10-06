@@ -11,6 +11,15 @@ const StyledStage = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  & > * {
+    display: none;
+  }
+  @media only screen and (min-width: 576px) and (min-height: 500px) {
+    & > * {
+      display: block;
+    }
+  }
 `;
 
 const LogoParticle = () => {

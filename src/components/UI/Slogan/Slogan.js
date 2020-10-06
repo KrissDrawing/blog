@@ -4,13 +4,19 @@ import styled from "styled-components";
 
 const SloganWrapper = styled.div`
   position: absolute;
-  top: 50vh;
-  transform: translate(0, -50%);
-  left: 10vw;
+  top: 35vh;
+  transform: translate(-50%, -50%);
+  left: 50vw;
   display: flex;
   color: white;
   font-size: 2rem;
   font-weight: 700;
+
+  @media (min-width: 576px) {
+    top: 50vh;
+    left: 10vw;
+    transform: translate(0, -50%);
+  }
 `;
 
 const SloganHeading = styled.h2`

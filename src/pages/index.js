@@ -21,13 +21,19 @@ const galaxyMove = keyframes`
   100% { background-position: -150px -150px;
     transform:  translate(-50%, -50%) rotate(360deg);}
 `;
+const Wrapper = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+`;
 
 const GalaxyImage = styled.div`
   overflow: hidden;
   width: 800px;
   height: 800px;
   position: absolute;
-  top: 50%;
+  top: 35%;
   left: 50%;
   transform: translate(-50%, -50%);
   &::after {
@@ -43,25 +49,55 @@ const GalaxyImage = styled.div`
     background-repeat: no-repeat;
     animation: ${galaxyMove} 60s linear infinite;
   }
+  mask-size: 200px 200px;
   mask-image: url(${({ mask }) => mask});
   mask-repeat: no-repeat;
   mask-position: center;
+
+  @media (min-width: 576px) {
+    top: 50%;
+    mask-size: 300px 300px;
+  }
+
+  @media (min-width: 576px) and (max-height: 500px) {
+    mask-size: 200px 200px;
+  }
 `;
 
 const SignImage = styled.img`
   position: absolute !important;
+  width: 200px;
   top: 50%;
   left: 50%;
-  transform: translate(-5%, 20%);
+  transform: translate(-40%, 140%) !important;
+
+  @media (min-width: 576px) {
+    width: 500px;
+    transform: translate(-5%, 20%) !important;
+  }
+  @media (min-width: 576px) and (max-height: 500px) {
+    width: 300px;
+    transform: translate(5%, 40%) !important;
+  }
 `;
 
 const BackgroundImage = styled(Image)`
   position: absolute !important;
-  width: 100% !important;
+  width: 200% !important;
   height: 100% !important;
   top: 0;
-  left: 0;
+  left: -100%;
   z-index: -1;
+
+  @media (min-width: 400px) {
+    left: -400px;
+  }
+
+  @media (min-width: 576px) {
+    left: 0;
+    width: 100% !important;
+    mask-size: 300px 300px;
+  }
 `;
 
 const IndexPage = ({ data }) => {
@@ -87,7 +123,7 @@ const IndexPage = ({ data }) => {
   }, []);
 
   return (
-    <>
+    <Wrapper>
       <Navigation />
       <BackgroundImage fixed={data.background.childImageSharp.fixed} />
       <LogoParticle />
@@ -98,7 +134,7 @@ const IndexPage = ({ data }) => {
       />
       <SignImage ref={signRef} src={data.sign.childImageSharp.fixed.src} />
       <Slogan sloganArray={sloganArray} />
-    </>
+    </Wrapper>
   );
 };
 
