@@ -19,6 +19,8 @@ const NavigationWrapper = styled.div<{ expand: boolean }>`
   color: white;
 
   @media (min-width: 768px) {
+    /* top: 0; */
+    padding-top: 0;
     flex-direction: row;
   }
 

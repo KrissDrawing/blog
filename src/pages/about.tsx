@@ -1,12 +1,51 @@
 import { graphql } from "gatsby";
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
 import Image from "gatsby-image";
 import styled from "styled-components";
 import Navigation from "../components/Navigation/Navigation";
 
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+`;
+
 const AboutImage = styled(Image)`
-  height: 100vh;
-  width: 50vw;
+  height: 50vh;
+  width: 100vw;
+
+  @media (min-width: 768px) {
+    height: 100vh;
+    width: 50vw;
+    flex-direction: row;
+  }
+`;
+
+const InfoWrapper = styled.div`
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @media (min-width: 768px) {
+    width: 50vw;
+    margin-top: 0;
+  }
+
+  @media (min-width: 768px) and (max-height: 350px) {
+    margin-top: 50px;
+    font-size: 0.7rem;
+    line-height: 1rem;
+  }
+  & > * {
+    width: 80%;
+    text-align: center;
+  }
 `;
 
 interface Props {
@@ -14,14 +53,54 @@ interface Props {
 }
 
 const about = ({ data }: Props) => {
+  const textRef = useRef(null);
+  const imageRef = useRef(null);
+
+  useEffect(() => {
+    const text = [...textRef.current.children];
+    const image = `.${imageRef.current.props.className.split(" ")[0]}`;
+
+    gsap.fromTo(
+      image,
+      {
+        autoAlpha: 0,
+        x: "-=300",
+      },
+      {
+        autoAlpha: 1,
+        x: "+=300",
+      }
+    );
+
+    text.forEach((item, i) => {
+      gsap.fromTo(
+        item,
+        { y: "+=100px" },
+        { duration: (i + 1) * 0.2, y: "-=100px" }
+      );
+    });
+  }, []);
+
   return (
-    <>
+    <Wrapper>
       <Navigation />
       {
         //@ts-ignore}
-        <AboutImage fluid={data.file.childImageSharp.fluid} />
+        <AboutImage ref={imageRef} fluid={data.file.childImageSharp.fluid} />
       }
-    </>
+      <InfoWrapper ref={textRef}>
+        <h2>Hi I'm Kriss</h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corporis
+          quas sequi mollitia perferendis dolore nostrum atque ratione est vero,
+          iusto deleniti illum ut provident saepe obcaecati impedit pariatur eos
+          ullam. Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+          Corporis quas sequi mollitia perferendis dolore nostrum atque ratione
+          est vero, iusto deleniti illum ut provident saepe obcaecati impedit
+          pariatur eos ullam.
+        </p>
+      </InfoWrapper>
+    </Wrapper>
   );
 };
 
