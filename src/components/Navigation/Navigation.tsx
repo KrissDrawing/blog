@@ -128,14 +128,14 @@ interface Props {}
 
 const Navigation = (props: Props) => {
   const [expand, setExpand] = useState(false);
-  const handleResize = e => {
-    const windowSize = window.innerWidth;
-    if (windowSize >= 768) {
-      setExpand(false);
-    }
-  };
 
   useEffect(() => {
+    const handleResize = e => {
+      const windowSize = window.innerWidth;
+      if (windowSize >= 768) {
+        setExpand(false);
+      }
+    };
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);

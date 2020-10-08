@@ -1,7 +1,7 @@
 import React from "react";
 import * as PIXI from "pixi.js";
-import * as particles from "pixi-particles";
 import { PixiComponent, Stage } from "@inlet/react-pixi";
+import * as particles from "pixi-particles";
 import { graphql, useStaticQuery } from "gatsby";
 import styled from "styled-components";
 

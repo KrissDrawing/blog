@@ -4,7 +4,7 @@ import { graphql } from "gatsby";
 import Image from "gatsby-image";
 import styled, { keyframes } from "styled-components";
 import { gsap } from "gsap";
-import LogoParticle from "../components/Particles/LogoParticle/LogoParticle";
+// import LogoParticle from "../components/Particles/LogoParticle/LogoParticle";
 import Slogan from "../components/UI/Slogan/Slogan";
 
 const galaxyMove = keyframes`
@@ -126,7 +126,7 @@ const IndexPage = ({ data }) => {
     <Wrapper>
       <Navigation />
       <BackgroundImage fixed={data.background.childImageSharp.fixed} />
-      <LogoParticle />
+      {/* <LogoParticle /> */}
       <GalaxyImage
         ref={logoRef}
         mask={data.logo.childImageSharp.fluid.src}
