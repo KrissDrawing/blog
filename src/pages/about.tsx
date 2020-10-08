@@ -31,6 +31,7 @@ const InfoWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: white;
 
   @media (min-width: 768px) {
     width: 50vw;

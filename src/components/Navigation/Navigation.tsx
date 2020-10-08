@@ -7,13 +7,13 @@ import { BiMenu } from "react-icons/bi";
 
 const NavigationWrapper = styled.div<{ expand: boolean }>`
   display: flex;
-  flex-direction: ${({ expand }) => (expand === true ? "column" : "column")};
+  flex-direction: ${({ expand }) => (expand === true ? "column" : "row")};
   align-items: center;
   justify-content: space-between;
   z-index: 999;
   position: fixed;
   top: 0;
-  padding-top: 50px;
+  padding-top: 25px;
   width: 100vw;
   font-size: 2rem;
   color: white;
@@ -33,10 +33,15 @@ const NavigationWrapper = styled.div<{ expand: boolean }>`
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
+    height: ${({ expand }) => (expand === true ? "100vh" : "0")};
     /* filter: blur(5px); */
     background-color: rgba(0, 0, 0, 0.8);
     z-index: -1;
+    @media (min-width: 768px) {
+      /* top: 0; */
+      padding-top: 0;
+      flex-direction: row;
+    }
   }
 `;
 
@@ -46,11 +51,12 @@ const NavigationList = styled.ul<{ expand: boolean }>`
   height: 50vh;
   align-content: center;
   flex-direction: column;
-  margin: 0;
+  margin: 50px 0 0 0;
   padding: 0;
   list-style: none;
 
   @media (min-width: 768px) {
+    margin: 0;
     height: auto;
     display: flex;
     flex-direction: row;
@@ -66,10 +72,9 @@ const NavigationLink = styled(Link)`
   /* transition: transform 0.2s ease-out; */
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
 
-  &:hover {
-    /* transform: scale(1.2); */
+  /* &:hover {
     font-size: 3rem;
-  }
+  } */
 `;
 const LogoImage = styled.img`
   /* filter: invert(100%); */
@@ -80,9 +85,9 @@ const LogoImage = styled.img`
   box-shadow: 0px 0px 5px 2px rgba(255, 255, 255, 0.2);
   transition: transform 0.2s ease-out;
 
-  &:hover {
+  /* &:hover {
     transform: scale(1.2);
-  }
+  } */
 `;
 const SocialsWrapper = styled.div<{ expand: boolean }>`
   display: ${({ expand }) => (expand === true ? "block" : "none")};
@@ -108,7 +113,7 @@ const BurgerMenu = styled.button`
   display: block;
   position: absolute;
   right: 25px;
-  top: 60px;
+  top: 35px;
   padding: 5px;
   background: none;
   border: 2px solid white;

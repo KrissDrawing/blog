@@ -7,30 +7,58 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import BlogCard from "../components/BlogCard/BlogCard";
 
 const Wrapper = styled.div`
+  /* &::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 400%;
+    height: 400%;
+    z-index: -1;
+    background-image: url(${({
+    url,
+  }) =>
+    url});
+    opacity: 0.1;
+    transform: translate(-50%, -50%) rotate(45deg);
+  } */
   /* height: auto; */
 `;
 
 const FeaturedImage = styled.img`
   scroll-snap-align: start;
   right: 0;
-  height: 100vh;
-  width: 50vw;
+  height: 50vh;
+  width: 100vw;
   object-fit: cover;
+
+  @media (min-width: 768px) {
+    height: 100vh;
+    width: 50vw;
+  }
 `;
 const ArticleCard = styled.div`
+  height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
 `;
 
 const ImageCard = styled.div``;
 
-const BackgroundTest = styled.div`
-  width: 100%;
-  height: 30px;
-  background-color: black;
-  /* transform: translateY(50vh) rotate(45deg); */
-  position: absolute;
-  top: 0;
+const Background = styled.div<{ url: string }>`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 400%;
+  height: 400%;
+  z-index: -1;
+  background-image: url(${({ url }) => url});
+  opacity: 0.1;
+  transform: translate(-50%, -50%);
 `;
 
 interface Props {
@@ -57,7 +85,7 @@ const Articles = ({ data }: Props) => {
         {
           scrollTrigger: {
             trigger: item,
-            start: "-400 top",
+            start: "-400 400",
             end: "bottom bottom",
             scrub: 1.5,
             // markers: true,
@@ -67,6 +95,24 @@ const Articles = ({ data }: Props) => {
         }
       );
     });
+
+    // gsap.set(background, { transformOrigin: "50% 50%" });
+
+    // var rotate = gsap
+    //   .timeline({
+    //     scrollTrigger: {
+    //       trigger: background,
+    //       pin: true,
+    //       scrub: 0.2,
+    //       start: "top top",
+    //       // end: "+=10000",
+    //     },
+    //   })
+    //   .to(background, {
+    //     rotation: 180,
+    //     duration: 1,
+    //     ease: "none",
+    //   });
 
     // if (i > 0) {
     //   gsap.to(sections[i - 1], {
@@ -119,7 +165,10 @@ const Articles = ({ data }: Props) => {
           <BlogCard item={item} i={i} />
         </ArticleCard>
       ))}
-      {/* <BackgroundTest ref={backgroundRef}></BackgroundTest> */}
+      <Background
+        url={data.zigzag.childImageSharp.fixed.src}
+        ref={backgroundRef}
+      ></Background>
     </Wrapper>
   );
 };
@@ -136,6 +185,13 @@ export const query = graphql`
         abstract
         featuredimage {
           url
+        }
+      }
+    }
+    zigzag: file(name: { eq: "zigzag" }) {
+      childImageSharp {
+        fixed(width: 200) {
+          src
         }
       }
     }

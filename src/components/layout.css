@@ -4,7 +4,7 @@ html {
   font: 112.5%/1.45em georgia, serif, sans-serif;
   box-sizing: border-box;
   overflow-x: hidden;
-  scroll-snap-type: y mandatory;
+  /* scroll-snap-type: y mandatory; */
 }
 body {
   margin: 0;
@@ -19,7 +19,8 @@ body {
   -ms-font-feature-settings: "kern", "liga", "clig", "calt";
   -webkit-font-feature-settings: "kern", "liga", "clig", "calt";
   font-feature-settings: "kern", "liga", "clig", "calt";
-  background-color: #e15eff;
+  background-color: rgb(140, 20, 150);
+  /* background: linear-gradient(75deg, rgba(150, 0, 250, 1), rgb(140, 20, 150)); */
 }
 article,
 aside,
