@@ -53,7 +53,7 @@ interface Props {
   data: any;
 }
 
-const about = ({ data }: Props) => {
+const About = ({ data }: Props) => {
   const textRef = useRef(null);
   const imageRef = useRef(null);
 
@@ -90,16 +90,8 @@ const about = ({ data }: Props) => {
         <AboutImage ref={imageRef} fluid={data.file.childImageSharp.fluid} />
       }
       <InfoWrapper ref={textRef}>
-        <h2>Hi I'm Kriss</h2>
-        <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corporis
-          quas sequi mollitia perferendis dolore nostrum atque ratione est vero,
-          iusto deleniti illum ut provident saepe obcaecati impedit pariatur eos
-          ullam. Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-          Corporis quas sequi mollitia perferendis dolore nostrum atque ratione
-          est vero, iusto deleniti illum ut provident saepe obcaecati impedit
-          pariatur eos ullam.
-        </p>
+        <h2>{data.datoCmsAbout.heading}</h2>
+        <p>{data.datoCmsAbout.about}</p>
       </InfoWrapper>
     </Wrapper>
   );
@@ -114,7 +106,11 @@ export const query = graphql`
         }
       }
     }
+    datoCmsAbout {
+      heading
+      about
+    }
   }
 `;
 
-export default about;
+export default About;
