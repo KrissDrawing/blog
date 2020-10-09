@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from "react";
+import Helmet from "react-helmet";
 import Navigation from "../components/Navigation/Navigation";
 import { graphql } from "gatsby";
 import Image from "gatsby-image";
@@ -124,6 +125,15 @@ const IndexPage = ({ data }) => {
 
   return (
     <Wrapper>
+      <Helmet>
+        <html lang="en" />
+        <title>{site.siteMetadata.title}</title>
+        <meta
+          name="google-site-verification"
+          content="WFcvnn4Uh8F-dSIl5R5DMJD98D4UakttNbzcPIwWsAI"
+        />
+      </Helmet>
+      ;
       <Navigation />
       <BackgroundImage fixed={data.background.childImageSharp.fixed} />
       {/* <LogoParticle /> */}
