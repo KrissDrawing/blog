@@ -126,8 +126,8 @@ const IndexPage = ({ data }) => {
   return (
     <Wrapper>
       <Helmet>
-        <html lang="en" />
-        <title>{site.siteMetadata.title}</title>
+        <html lang="pl" />
+        <title>Hej, tu Kriss</title>
         <meta
           name="google-site-verification"
           content="WFcvnn4Uh8F-dSIl5R5DMJD98D4UakttNbzcPIwWsAI"
