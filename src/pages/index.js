@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import Navigation from "../components/Navigation/Navigation";
 import { graphql } from "gatsby";
+import "../components/layout.css"
 import Image from "gatsby-image";
 import styled, { keyframes } from "styled-components";
 import { gsap } from "gsap";
