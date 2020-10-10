@@ -12,11 +12,15 @@ const InfoWrapper = styled.div`
   box-shadow: 2px 2px 30px 1px rgba(0, 0, 0, 0.5);
   border: 3px solid black;
   width: 90%;
-  margin: auto;
+  margin: 10px auto 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media (min-height: 800px) {
+    margin: auto;
+  }
 
   @media (min-width: 768px) {
     width: 40%;

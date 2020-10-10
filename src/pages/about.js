@@ -49,11 +49,7 @@ const InfoWrapper = styled.div`
   }
 `;
 
-interface Props {
-  data: any;
-}
-
-const About = ({ data }: Props) => {
+const About = ({ data }) => {
   const textRef = useRef(null);
   const imageRef = useRef(null);
 
@@ -85,10 +81,7 @@ const About = ({ data }: Props) => {
   return (
     <Wrapper>
       <Navigation />
-      {
-        //@ts-ignore}
-        <AboutImage ref={imageRef} fluid={data.file.childImageSharp.fluid} />
-      }
+      <AboutImage ref={imageRef} fluid={data.file.childImageSharp.fluid} />
       <InfoWrapper ref={textRef}>
         <h2>{data.datoCmsAbout.heading}</h2>
         <p>{data.datoCmsAbout.about}</p>

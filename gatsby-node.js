@@ -25,14 +25,28 @@ exports.createPages = async ({ graphql, actions }) => {
     throw errors;
   }
 
-  // Create blog post pages.
   result.data.allDatoCmsArticle.nodes.forEach(post => {
     createPage({
-      // Path for this page — required
       path: `/articles/${post.slug}`,
       component: blogPostTemplate,
       context: {
         slug: post.slug,
+      },
+    });
+  });
+
+  const posts = result.data.allDatoCmsArticle.nodes;
+  const postsPerPage = 3;
+  const numPages = Math.ceil(posts.length / postsPerPage);
+  Array.from({ length: numPages }).forEach((_, i) => {
+    createPage({
+      path: i === 0 ? `/articles` : `/articles/${i + 1}`,
+      component: path.resolve(`src/pages/articles.js`),
+      context: {
+        limit: postsPerPage,
+        skip: i * postsPerPage,
+        numPages,
+        currentPage: i + 1,
       },
     });
   });
