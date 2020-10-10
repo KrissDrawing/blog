@@ -122,7 +122,7 @@ const Articles = ({ data, pageContext }) => {
 };
 
 export const query = graphql`
-  query ArticlesQuery($limit: Int!, $skip: Int!) {
+  query ArticlesQuery($limit: Int, $skip: Int) {
     allDatoCmsArticle(limit: $limit, skip: $skip) {
       nodes {
         title
