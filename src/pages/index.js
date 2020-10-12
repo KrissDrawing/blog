@@ -6,9 +6,7 @@ import Image from "gatsby-image";
 import styled, { keyframes } from "styled-components";
 import { gsap } from "gsap";
 import Slogan from "../components/UI/Slogan/Slogan";
-import Category from "../components/Category/Category";
-import { CategoryDate } from "../layouts/elements";
-import { BiRightArrowAlt } from "react-icons/bi";
+import ArticleBanner from "../components/ArticleBanner/ArticleBanner";
 
 const galaxyMove = keyframes`
   0% { background-position: -150px -150px;
@@ -103,45 +101,6 @@ const BackgroundImage = styled(Image)`
   }
 `;
 
-const NewArticle = styled(Link)`
-  color: white;
-  text-decoration: none;
-  position: absolute;
-  width: 90vw;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 2px solid white;
-
-  & > span {
-    height: 96px;
-    display: flex;
-    align-items: center;
-    /* padding: 20px 5px; */
-    font-size: 60px;
-    border-left: 2px solid white;
-  }
-  & > div {
-    margin: auto;
-  }
-
-  @media (min-width: 900px) {
-    width: 50vw;
-  }
-`;
-const NewBadge = styled.p`
-  margin: 0;
-  padding: 0;
-  line-height: 30px;
-  font-size: 35px;
-  transform: translate(-17%, 0) rotate(-90deg);
-  border-bottom: 2px solid white;
-`;
-
 const IndexPage = ({ data }) => {
   const logoRef = useRef(null);
   const signRef = useRef(null);
@@ -185,24 +144,7 @@ const IndexPage = ({ data }) => {
       />
       <SignImage ref={signRef} src={data.sign.childImageSharp.fixed.src} />
       <Slogan sloganArray={sloganArray} />
-      <NewArticle to={`/articles/${data.allDatoCmsArticle.nodes[0].slug}`}>
-        <NewBadge>
-          NEW
-          <br /> POST
-        </NewBadge>
-        <div>
-          <h2>{data.allDatoCmsArticle.nodes[0].title}</h2>
-          <CategoryDate>
-            <p>
-              {new Date(data.allDatoCmsArticle.nodes[0].date).toLocaleString()}
-            </p>
-            <Category category={data.allDatoCmsArticle.nodes[0].category} />
-          </CategoryDate>
-        </div>
-        <span>
-          <BiRightArrowAlt />
-        </span>
-      </NewArticle>
+      <ArticleBanner isNew item={data.allDatoCmsArticle.nodes[0]} />
     </Wrapper>
   );
 };

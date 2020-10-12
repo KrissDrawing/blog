@@ -1,13 +1,14 @@
-import { graphql } from "gatsby";
+import { graphql, Link } from "gatsby";
 import React from "react";
 import styled from "styled-components";
+import ArticleBanner from "../components/ArticleBanner/ArticleBanner";
 import Category from "../components/Category/Category";
 import Navigation from "../components/Navigation/Navigation";
 import { CategoryDate } from "./elements";
 import Layout from "./Layout";
 
 export const query = graphql`
-  query querySingleArticle($slug: String!) {
+  query querySingleArticle($slug: String!, $nextPostSlug: String) {
     datoCmsArticle(slug: { eq: $slug }) {
       title
       author
@@ -33,6 +34,11 @@ export const query = graphql`
           id
         }
       }
+    }
+    next: datoCmsArticle(slug: { eq: $nextPostSlug }) {
+      title
+      date
+      category
     }
   }
 `;
@@ -72,7 +78,7 @@ const Abstract = styled.p`
   padding: 10px;
 `;
 
-const blogPost = ({ data }) => {
+const blogPost = ({ data, pageContext }) => {
   return (
     <Layout>
       <Navigation />
@@ -84,7 +90,6 @@ const blogPost = ({ data }) => {
             <p>{data.datoCmsArticle.date}</p>
             <Category category={data.datoCmsArticle.category} />
           </CategoryDate>
-
           <Abstract>
             <p>Streszczenie</p>
             {data.datoCmsArticle.abstract}
@@ -105,6 +110,11 @@ const blogPost = ({ data }) => {
               }
             })}
           </div>
+          {pageContext.nextPostSlug === null ? null : (
+            <ArticleBanner
+              item={{ ...data.next, slug: pageContext.nextPostSlug }}
+            />
+          )}
         </div>
       </Wrapper>
     </Layout>

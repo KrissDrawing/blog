@@ -25,12 +25,14 @@ exports.createPages = async ({ graphql, actions }) => {
     throw errors;
   }
 
-  result.data.allDatoCmsArticle.nodes.forEach(post => {
+  const blogPosts = result.data.allDatoCmsArticle.nodes;
+  blogPosts.forEach((post, i) => {
     createPage({
       path: `/articles/${post.slug}`,
       component: blogPostTemplate,
       context: {
         slug: post.slug,
+        nextPostSlug: blogPosts.length === i + 1 ? null : blogPosts[i + 1].slug,
       },
     });
   });
@@ -41,7 +43,7 @@ exports.createPages = async ({ graphql, actions }) => {
   Array.from({ length: numPages }).forEach((_, i) => {
     createPage({
       path: i === 0 ? `/articles` : `/articles/${i + 1}`,
-      component: path.resolve(`src/pages/articles.js`),
+      component: path.resolve(`src/layouts/articles.js`),
       context: {
         limit: postsPerPage,
         skip: i * postsPerPage,

@@ -24,12 +24,13 @@ const PageLink = styled(Link)`
   text-decoration: none;
 `;
 
-const PageMenu = ({ currentPage, numPages }) => {
+const PageMenu = ({ currentpage, numPages }) => {
   return (
     <Wrapper>
       {Array.from({ length: numPages }).map((_, i) => (
         <PageLink
-          currentPage={i + 1 === currentPage}
+          key={i}
+          currentPage={i + 1 === currentpage}
           to={`/articles${i === 0 ? "" : `/${i + 1}`}`}
         >
           {i + 1}

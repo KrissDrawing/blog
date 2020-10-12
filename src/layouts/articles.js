@@ -2,7 +2,7 @@ import { graphql } from "gatsby";
 import React, { useEffect, useRef } from "react";
 import Navigation from "../components/Navigation/Navigation";
 import styled from "styled-components";
-import ArticlesList from "../layouts/articlesList";
+import ArticlesList from "./articlesList";
 import PageMenu from "../components/PageMenu/PageMenu";
 import { BiChevronsDown } from "react-icons/bi";
 import gsap from "gsap/gsap-core";
@@ -56,6 +56,31 @@ const Background = styled.div`
   transform: translate(-50%, -50%);
 `;
 
+export const query = graphql`
+  query ArticlesQuery($limit: Int = 3, $skip: Int = 0) {
+    allDatoCmsArticle(limit: $limit, skip: $skip) {
+      nodes {
+        title
+        slug
+        author
+        date
+        category
+        abstract
+        featuredimage {
+          url
+        }
+      }
+    }
+    zigzag: file(name: { eq: "zigzag" }) {
+      childImageSharp {
+        fixed(width: 200) {
+          src
+        }
+      }
+    }
+  }
+`;
+
 const Articles = ({ data, pageContext }) => {
   const scrollMoreRef = useRef(null);
 
@@ -96,37 +121,12 @@ const Articles = ({ data, pageContext }) => {
         </span>
       </ScrollMore>
       <PageMenu
-        currentPage={pageContext.currentPage}
+        currentpage={pageContext.currentPage}
         numPages={pageContext.numPages}
       />
       <Background url={data.zigzag.childImageSharp.fixed.src}></Background>
     </Wrapper>
   );
 };
-
-export const query = graphql`
-  query ArticlesQuery($limit: Int = 3, $skip: Int = 0) {
-    allDatoCmsArticle(limit: $limit, skip: $skip) {
-      nodes {
-        title
-        slug
-        author
-        date
-        category
-        abstract
-        featuredimage {
-          url
-        }
-      }
-    }
-    zigzag: file(name: { eq: "zigzag" }) {
-      childImageSharp {
-        fixed(width: 200) {
-          src
-        }
-      }
-    }
-  }
-`;
 
 export default Articles;
