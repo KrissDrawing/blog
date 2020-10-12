@@ -10,7 +10,7 @@ const CategoryWrapper = styled.div`
   justify-content: space-around;
   align-items: center;
   & > p {
-    margin: 0;
+    margin: 0 10px 0 0;
   }
   & > span {
     font-size: 1rem;
@@ -42,6 +42,13 @@ const Category = ({ category }) => {
       );
       break;
     case "self-dev":
+      categoryIcon = (
+        <span>
+          <AiOutlineLineChart />
+        </span>
+      );
+      break;
+    default:
       categoryIcon = (
         <span>
           <AiOutlineLineChart />

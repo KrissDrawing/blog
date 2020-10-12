@@ -1,7 +1,6 @@
-import { graphql, useStaticQuery } from "gatsby";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import BlogCard from "../components/BlogCard/BlogCard";
 
@@ -34,14 +33,10 @@ const ImageCard = styled.div``;
 
 const ArticlesList = ({ data }) => {
   let imageRef = useRef([]);
-  let backgroundRef = useRef(null);
-  const [state, setState] = useState([]);
   useEffect(() => {
     const images = imageRef.current;
-    const background = backgroundRef.current;
 
     gsap.registerPlugin(ScrollTrigger);
-    const tl = gsap.timeline({ defaults: { ease: "power3.inOut" } });
     images.forEach((item, i) => {
       gsap.fromTo(
         item,

@@ -1,6 +1,5 @@
 import { Link } from "gatsby";
-import gsap from "gsap/gsap-core";
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 import { BiRightArrowAlt } from "react-icons/bi";
 import Category from "../Category/Category";
@@ -65,42 +64,16 @@ const ArticleButton = styled(Link)`
 `;
 
 const BlogCard = ({ item, i }) => {
-  let sectionRef = useRef(null);
-
-  useEffect(() => {
-    /* const section = sectionRef.current;
-     console.log(section);
-     gsap.fromTo(
-       section,
-       {
-         x: "-=15vh",
-       },
-       {
-         scrollTrigger: {
-           trigger: section,
-           start: "-400 top",
-           end: "bottom bottom",
-           scrub: 1.5,
-           markers: true,
-         },
-         x: "+=15vh",
-       }
-     ); */
-  }, [sectionRef]);
-
   return (
-    <InfoWrapper index={i} ref={el => (sectionRef.current = el)}>
+    <InfoWrapper index={i}>
       <ArticleTitle to={`/articles/${item.slug}`}>
         <h2>{item.title}</h2>
       </ArticleTitle>
-      {/* <p>{item.author}</p> */}
       <BreakLine />
       <CategoryDate>
         <p>Added: {new Date(item.date).toLocaleString()}</p>
         <Category category={item.category} />
       </CategoryDate>
-      {/* <BreakLine /> */}
-
       <Abstract>{item.abstract}</Abstract>
       <ArticleButton to={`/articles/${item.slug}`}>
         <p>See Article</p>

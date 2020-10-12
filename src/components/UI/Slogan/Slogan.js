@@ -30,14 +30,13 @@ const Slogan = ({ sloganArray }) => {
   const [sloganString, setSloganString] = useState("Programming");
   let iterator = 1;
 
-  let sloganInterval;
   useEffect(() => {
-    sloganInterval = setInterval(() => {
+    const sloganInterval = setInterval(() => {
       setSloganString(sloganArray[iterator % sloganArray.length]);
       iterator++;
     }, 4000);
     return () => clearInterval(sloganInterval);
-  }, []);
+  }, [iterator, sloganArray]);
 
   useEffect(() => {
     const slogan = sloganRef.current.children;

@@ -1,12 +1,14 @@
 import React, { useRef, useEffect } from "react";
 import Helmet from "react-helmet";
 import Navigation from "../components/Navigation/Navigation";
-import { graphql } from "gatsby";
+import { graphql, Link } from "gatsby";
 import Image from "gatsby-image";
 import styled, { keyframes } from "styled-components";
 import { gsap } from "gsap";
-// import LogoParticle from "../components/Particles/LogoParticle/LogoParticle";
 import Slogan from "../components/UI/Slogan/Slogan";
+import Category from "../components/Category/Category";
+import { CategoryDate } from "../layouts/elements";
+import { BiRightArrowAlt } from "react-icons/bi";
 
 const galaxyMove = keyframes`
   0% { background-position: -150px -150px;
@@ -70,7 +72,7 @@ const SignImage = styled.img`
   width: 200px;
   top: 50%;
   left: 50%;
-  transform: translate(-40%, 140%) !important;
+  transform: translate(-40%, 100%) !important;
 
   @media (min-width: 576px) {
     width: 500px;
@@ -99,6 +101,45 @@ const BackgroundImage = styled(Image)`
     width: 100% !important;
     mask-size: 300px 300px;
   }
+`;
+
+const NewArticle = styled(Link)`
+  color: white;
+  text-decoration: none;
+  position: absolute;
+  width: 90vw;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid white;
+
+  & > span {
+    height: 96px;
+    display: flex;
+    align-items: center;
+    /* padding: 20px 5px; */
+    font-size: 60px;
+    border-left: 2px solid white;
+  }
+  & > div {
+    margin: auto;
+  }
+
+  @media (min-width: 900px) {
+    width: 50vw;
+  }
+`;
+const NewBadge = styled.p`
+  margin: 0;
+  padding: 0;
+  line-height: 30px;
+  font-size: 35px;
+  transform: translate(-17%, 0) rotate(-90deg);
+  border-bottom: 2px solid white;
 `;
 
 const IndexPage = ({ data }) => {
@@ -144,6 +185,24 @@ const IndexPage = ({ data }) => {
       />
       <SignImage ref={signRef} src={data.sign.childImageSharp.fixed.src} />
       <Slogan sloganArray={sloganArray} />
+      <NewArticle to={`/articles/${data.allDatoCmsArticle.nodes[0].slug}`}>
+        <NewBadge>
+          NEW
+          <br /> POST
+        </NewBadge>
+        <div>
+          <h2>{data.allDatoCmsArticle.nodes[0].title}</h2>
+          <CategoryDate>
+            <p>
+              {new Date(data.allDatoCmsArticle.nodes[0].date).toLocaleString()}
+            </p>
+            <Category category={data.allDatoCmsArticle.nodes[0].category} />
+          </CategoryDate>
+        </div>
+        <span>
+          <BiRightArrowAlt />
+        </span>
+      </NewArticle>
     </Wrapper>
   );
 };
@@ -176,6 +235,15 @@ export const query = graphql`
         fixed(width: 499) {
           src
         }
+      }
+    }
+    allDatoCmsArticle(sort: { fields: date, order: DESC }, limit: 1) {
+      nodes {
+        title
+        slug
+        date
+        category
+        abstract
       }
     }
   }

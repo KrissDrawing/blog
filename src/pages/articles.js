@@ -1,5 +1,5 @@
-import { graphql, Link } from "gatsby";
-import React, { useEffect, useRef, useState } from "react";
+import { graphql } from "gatsby";
+import React, { useEffect, useRef } from "react";
 import Navigation from "../components/Navigation/Navigation";
 import styled from "styled-components";
 import ArticlesList from "../layouts/articlesList";
@@ -7,24 +7,7 @@ import PageMenu from "../components/PageMenu/PageMenu";
 import { BiChevronsDown } from "react-icons/bi";
 import gsap from "gsap/gsap-core";
 
-const Wrapper = styled.div`
-  /* &::after {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 400%;
-    height: 400%;
-    z-index: -1;
-    background-image: url(${({
-    url,
-  }) =>
-    url});
-    opacity: 0.1;
-    transform: translate(-50%, -50%) rotate(45deg);
-  } */
-  /* height: auto; */
-`;
+const Wrapper = styled.div``;
 
 const ScrollMore = styled.div`
   position: absolute;
@@ -122,7 +105,7 @@ const Articles = ({ data, pageContext }) => {
 };
 
 export const query = graphql`
-  query ArticlesQuery($limit: Int, $skip: Int) {
+  query ArticlesQuery($limit: Int = 3, $skip: Int = 0) {
     allDatoCmsArticle(limit: $limit, skip: $skip) {
       nodes {
         title
