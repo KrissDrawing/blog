@@ -1,5 +1,7 @@
 import { Link } from "gatsby";
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styled from "styled-components";
 import { BiRightArrowAlt } from "react-icons/bi";
 import Category from "../Category/Category";
@@ -64,8 +66,31 @@ const ArticleButton = styled(Link)`
 `;
 
 const BlogCard = ({ item, i }) => {
+  const cardRef = useRef(null);
+  useEffect(() => {
+    const card = cardRef.current;
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.fromTo(
+      card,
+      {
+        y: "+=100",
+        autoAlpha: 0,
+      },
+      {
+        scrollTrigger: {
+          trigger: card,
+          start: "-800 top",
+          end: "bottom bottom",
+          scrub: 1.5,
+        },
+        y: "-=100",
+        autoAlpha: 1,
+      }
+    );
+  }, []);
+
   return (
-    <InfoWrapper index={i}>
+    <InfoWrapper ref={cardRef} index={i}>
       <ArticleTitle to={`/articles/${item.slug}`}>
         <h2>{item.title}</h2>
       </ArticleTitle>
