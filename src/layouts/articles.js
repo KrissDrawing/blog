@@ -66,6 +66,14 @@ const BackgroundAnimations = styled.div`
   top: 0;
   left: 0;
   z-index: -1;
+  display: none;
+
+  @media (min-width: 768px) {
+    display: block;
+  }
+  @media (max-height: 500px) {
+    display: none !important;
+  }
 `;
 
 const BgWrapper = styled.div`
@@ -73,7 +81,7 @@ const BgWrapper = styled.div`
   left: ${({ x }) => x};
   top: ${({ y }) => y};
   transform: translate(-50%, -50%);
-  font-size: 200px;
+  font-size: 22vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -111,11 +119,11 @@ const Articles = ({ data, pageContext }) => {
   const bgAnimRef = useRef(null);
 
   const Bearings = [
-    { x: "100vw", y: "10vh", color: "#733dfc" },
-    { x: "100vw", y: "30vh", color: "#b93dfc" },
-    { x: "100vw", y: "50vh", color: "#ff3dfc" },
-    { x: "100vw", y: "70vh", color: "#ff3dfc" },
-    { x: "100vw", y: "90vh", color: "#ff3dfc" },
+    { x: "99vw", y: "10vh", color: "#733dfc" },
+    { x: "99vw", y: "30vh", color: "#b93dfc" },
+    { x: "99vw", y: "50vh", color: "#ff3dfc" },
+    { x: "99vw", y: "70vh", color: "#ff3dfc" },
+    { x: "99vw", y: "90vh", color: "#ff3dfc" },
   ];
 
   useEffect(() => {
