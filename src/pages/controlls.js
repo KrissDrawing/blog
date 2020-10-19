@@ -1,9 +1,11 @@
-import { ApolloProvider, gql, useMutation } from "@apollo/client";
+import { ApolloProvider, gql, useMutation, useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import client from "../gatsby-theme-apollo/client";
 import { HuePicker, AlphaPicker } from "react-color";
 import { FaPowerOff } from "react-icons/fa";
+import Login from "../components/Login/Login";
+import Logout from "../components/Login/Logout";
 
 const Wrapper = styled.div`
   display: flex;
@@ -46,14 +48,6 @@ const PowerButton = styled.button`
   margin: 20px;
 `;
 
-const mutateQueryBrightness = gql`
-  mutation setBrightness($brightness: Int = 0) {
-    setBrightness(topic: "test/1/env", brightness: $brightness) {
-      brightness
-    }
-  }
-`;
-
 const mutateQueryColor = gql`
   mutation setColor($r: Int = 0, $g: Int = 0, $b: Int = 0, $a: Float = 0) {
     setColor(topic: "test/1/env", r: $r, g: $g, b: $b, a: $a) {
@@ -65,6 +59,14 @@ const mutateQueryColor = gql`
   }
 `;
 
+const getUser = gql`
+  {
+    me {
+      email
+    }
+  }
+`;
+
 const Controlls = () => {
   const windowGlobal = typeof window !== "undefined" && window;
   const localStorage = windowGlobal.localStorage;
@@ -72,6 +74,10 @@ const Controlls = () => {
   const [mutateColor, { colorData }] = useMutation(mutateQueryColor);
   const [onOff, setOnOff] = useState(true);
   const [memoryBrightness, setMemoryBrightness] = useState(0.1);
+
+  const { loading, error, data } = useQuery(getUser);
+  // if (loading) return "Loading...";
+  // if (error) return `Error! ${error.message}`;
 
   const [lightColor, setLightColor] = useState({
     r: 255,
@@ -116,9 +122,12 @@ const Controlls = () => {
     color.rgb.a !== 0 ? setOnOff(true) : setOnOff(false);
   };
 
-  return (
-    <ApolloProvider client={client}>
-      <Wrapper>
+  let content;
+
+  if (data && data.me) {
+    content = (
+      <>
+        <Logout />
         <PowerButton
           onOff={onOff}
           onClick={() => {
@@ -157,7 +166,16 @@ const Controlls = () => {
             pointer={CustomPointer}
           />
         </ColorPickers>
-      </Wrapper>
+      </>
+    );
+  } else {
+    content = <Login />;
+  }
+
+  return (
+    <ApolloProvider client={client}>
+      {console.log(document.cookie)}
+      <Wrapper>{content}</Wrapper>
     </ApolloProvider>
   );
 };
