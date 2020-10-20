@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { BiRightArrowAlt } from "react-icons/bi";
 import Category from "../Category/Category";
 import { BreakLine, CategoryDate } from "../../layouts/elements";
+import LinkButton from "../UI/Button/LinkButton";
 
 const InfoWrapper = styled.div`
   background-color: ${({ index }) => `hsl(${index * 36},100%,76%)`};
@@ -100,10 +101,11 @@ const BlogCard = ({ item, i }) => {
         <Category category={item.category} />
       </CategoryDate>
       <Abstract>{item.abstract}</Abstract>
-      <ArticleButton to={`/articles/${item.slug}`}>
-        <p>See Article</p>
-        <BiRightArrowAlt />
-      </ArticleButton>
+      <LinkButton
+        to={`/articles/${item.slug}`}
+        text="See Article"
+        icon={<BiRightArrowAlt />}
+      />
     </InfoWrapper>
   );
 };
