@@ -6,11 +6,20 @@ import { HuePicker, AlphaPicker } from "react-color";
 import { FaPowerOff } from "react-icons/fa";
 import Login from "../components/Login/Login";
 import Logout from "../components/Login/Logout";
+import ColorTempPicker from "../components/ColorTempPicker/ColorTempPicker";
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const SectionPickerWrapper = styled.div`
+  display: flex;
+  color: white;
+`;
+const SectionInput = styled.input`
+  margin: 5px;
 `;
 const ColorPickers = styled.div`
   width: 500px;
@@ -48,9 +57,24 @@ const PowerButton = styled.button`
   margin: 20px;
 `;
 
-const mutateQueryColor = gql`
-  mutation setColor($r: Int = 0, $g: Int = 0, $b: Int = 0, $a: Float = 0) {
-    setColor(topic: "test/1/env", r: $r, g: $g, b: $b, a: $a) {
+const mutateQueryColorAmbient = gql`
+  mutation setColorAmbient(
+    $r: Int = 0
+    $g: Int = 0
+    $b: Int = 0
+    $a: Float = 0
+  ) {
+    setColorAmbient(topic: "test/1/env", r: $r, g: $g, b: $b, a: $a) {
+      r
+      g
+      b
+      a
+    }
+  }
+`;
+const mutateQueryColorMain = gql`
+  mutation setColorMain($r: Int = 0, $g: Int = 0, $b: Int = 0, $a: Float = 0) {
+    setColorMain(r: $r, g: $g, b: $b, a: $a) {
       r
       g
       b
@@ -71,8 +95,13 @@ const Controlls = () => {
   const windowGlobal = typeof window !== "undefined" && window;
   const localStorage = windowGlobal.localStorage;
 
-  const [mutateColor, { colorData }] = useMutation(mutateQueryColor);
+  const [mutateColorAmbient] = useMutation(mutateQueryColorAmbient);
+  const [mutateColorMain] = useMutation(mutateQueryColorMain);
   const [onOff, setOnOff] = useState(true);
+  const [lightSections, setLightSections] = useState([
+    { name: "main", isChecked: false },
+    { name: "ambient", isChecked: false },
+  ]);
   const [memoryBrightness, setMemoryBrightness] = useState(0.1);
 
   const { loading, error, data } = useQuery(getUser);
@@ -98,14 +127,26 @@ const Controlls = () => {
     });
   }, []);
   useEffect(() => {
-    mutateColor({
-      variables: {
-        r: lightColor.r,
-        g: lightColor.g,
-        b: lightColor.b,
-        a: lightColor.a,
-      },
-    });
+    if (lightSections[1].isChecked) {
+      mutateColorAmbient({
+        variables: {
+          r: lightColor.r,
+          g: lightColor.g,
+          b: lightColor.b,
+          a: lightColor.a,
+        },
+      });
+    }
+    if (lightSections[0].isChecked) {
+      mutateColorMain({
+        variables: {
+          r: lightColor.r,
+          g: lightColor.g,
+          b: lightColor.b,
+          a: lightColor.a,
+        },
+      });
+    }
 
     return () => {
       localStorage.setItem("colorMemory", JSON.stringify(lightColor));
@@ -122,12 +163,22 @@ const Controlls = () => {
     color.rgb.a !== 0 ? setOnOff(true) : setOnOff(false);
   };
 
+  const handleCheckChieldElement = event => {
+    let sections = lightSections;
+    sections.forEach(section => {
+      if (section.name === event.target.name)
+        section.isChecked = event.target.checked;
+    });
+    setLightSections({ ...lightSections, sections });
+  };
+
   let content;
 
   if (data && data.me) {
     content = (
       <>
         <Logout />
+
         <PowerButton
           onOff={onOff}
           onClick={() => {
@@ -149,6 +200,25 @@ const Controlls = () => {
           <FaPowerOff />
         </PowerButton>
         <ColorPickers>
+          <SectionPickerWrapper>
+            <div>
+              <SectionInput
+                onClick={handleCheckChieldElement}
+                type="checkbox"
+                name="main"
+              />
+              <label htmlFor="main">Main</label>
+            </div>
+
+            <div>
+              <SectionInput
+                onClick={handleCheckChieldElement}
+                type="checkbox"
+                name="ambient"
+              />
+              <label htmlFor="ambient">Ambient</label>
+            </div>
+          </SectionPickerWrapper>
           <p>Pick Color</p>
           <HuePicker
             width="100%"
@@ -157,6 +227,7 @@ const Controlls = () => {
             color={lightColor}
             onChangeComplete={handleChangeComplete}
           />
+          <ColorTempPicker setColor={handleChangeComplete} />
           <p>Pick Brightness: {Math.round(lightColor.a * 100)}%</p>
           <AlphaPicker
             color={lightColor}
@@ -165,6 +236,7 @@ const Controlls = () => {
             height="40px"
             pointer={CustomPointer}
           />
+          {lightSections[1].isChecked === true ? <h1>ITS WORKIN</h1> : null}
         </ColorPickers>
       </>
     );
@@ -174,7 +246,6 @@ const Controlls = () => {
 
   return (
     <ApolloProvider client={client}>
-      {console.log(document.cookie)}
       <Wrapper>{content}</Wrapper>
     </ApolloProvider>
   );
