@@ -98,10 +98,10 @@ const Controlls = () => {
   const [mutateColorAmbient] = useMutation(mutateQueryColorAmbient);
   const [mutateColorMain] = useMutation(mutateQueryColorMain);
   const [onOff, setOnOff] = useState(true);
-  const [lightSections, setLightSections] = useState([
-    { name: "main", isChecked: false },
-    { name: "ambient", isChecked: false },
-  ]);
+  const [lightSections, setLightSections] = useState({
+    main: false,
+    ambient: false,
+  });
   const [memoryBrightness, setMemoryBrightness] = useState(0.1);
 
   const { loading, error, data } = useQuery(getUser);
@@ -127,7 +127,7 @@ const Controlls = () => {
     });
   }, []);
   useEffect(() => {
-    if (lightSections[1].isChecked) {
+    if (lightSections["ambient"]) {
       mutateColorAmbient({
         variables: {
           r: lightColor.r,
@@ -137,7 +137,7 @@ const Controlls = () => {
         },
       });
     }
-    if (lightSections[0].isChecked) {
+    if (lightSections["main"]) {
       mutateColorMain({
         variables: {
           r: lightColor.r,
@@ -164,12 +164,10 @@ const Controlls = () => {
   };
 
   const handleCheckChieldElement = event => {
-    let sections = lightSections;
-    sections.forEach(section => {
-      if (section.name === event.target.name)
-        section.isChecked = event.target.checked;
+    setLightSections({
+      ...lightSections,
+      [event.target.name]: event.target.checked,
     });
-    setLightSections({ ...lightSections, sections });
   };
 
   let content;
@@ -236,7 +234,7 @@ const Controlls = () => {
             height="40px"
             pointer={CustomPointer}
           />
-          {lightSections[1].isChecked === true ? <h1>ITS WORKIN</h1> : null}
+          {lightSections["ambient"] === true ? <h1>ITS WORKIN</h1> : null}
         </ColorPickers>
       </>
     );
