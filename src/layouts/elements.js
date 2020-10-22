@@ -21,7 +21,7 @@ export const CategoryDate = styled.div`
 
 export const BreakLine = styled.hr`
   width: 100%;
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid ${({ light }) => (light ? "white" : "black")};
   background: none;
-  margin: 0;
+  margin: ${({ margin }) => (margin ? "5px 0 20px 0" : "0")};
 `;

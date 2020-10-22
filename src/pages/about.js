@@ -4,11 +4,22 @@ import gsap from "gsap";
 import Image from "gatsby-image";
 import styled from "styled-components";
 import Navigation from "../components/Navigation/Navigation";
-
+import { BreakLine } from "../layouts/elements";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(${({ bg }) => bg});
+    opacity: 0.2;
+    /* transform: translate(25%, 0) rotate(90deg); */
+    z-index: -1;
+  }
   @media (min-width: 768px) {
     flex-direction: row;
   }
@@ -48,6 +59,12 @@ const InfoWrapper = styled.div`
     text-align: center;
   }
 `;
+const InfoCard = styled.div`
+  background-color: #3b8b94;
+  padding: 20px;
+  border: 2px solid white;
+  box-shadow: 2px 2px 20px 1px rgba(0, 0, 0, 0.4);
+`;
 
 const About = ({ data }) => {
   const textRef = useRef(null);
@@ -79,12 +96,15 @@ const About = ({ data }) => {
   }, []);
 
   return (
-    <Wrapper>
+    <Wrapper bg={data.aboutBg.childImageSharp.fixed.src}>
       <Navigation />
-      <AboutImage ref={imageRef} fluid={data.file.childImageSharp.fluid} />
+      <AboutImage ref={imageRef} fluid={data.aboutImg.childImageSharp.fluid} />
       <InfoWrapper ref={textRef}>
-        <h2>{data.datoCmsAbout.heading}</h2>
-        <p>{data.datoCmsAbout.about}</p>
+        <InfoCard>
+          <h2>{data.datoCmsAbout.heading}</h2>
+          <BreakLine light margin />
+          <p>{data.datoCmsAbout.about}</p>
+        </InfoCard>
       </InfoWrapper>
     </Wrapper>
   );
@@ -92,10 +112,17 @@ const About = ({ data }) => {
 
 export const query = graphql`
   {
-    file(name: { eq: "about" }) {
+    aboutImg: file(name: { eq: "about" }) {
       childImageSharp {
         fluid(maxHeight: 1080) {
           ...GatsbyImageSharpFluid_tracedSVG
+        }
+      }
+    }
+    aboutBg: file(name: { eq: "aboutBg" }) {
+      childImageSharp {
+        fixed(height: 1080) {
+          src
         }
       }
     }

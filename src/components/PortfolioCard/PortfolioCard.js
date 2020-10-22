@@ -91,14 +91,10 @@ const PortfolioCard = ({
         <Description>{desc}</Description>
 
         <ButtonsWrapper>
-          <LinkButton
-            href="https://github.com/KrissDrawing/CrossyRoadWannabe"
-            text="code"
-            icon={<FaGithub />}
-          />
+          <LinkButton href={code} text="code" icon={<FaGithub />} />
           {live ? (
             <LinkButton
-              href="https://github.com/KrissDrawing/CrossyRoadWannabe"
+              href={live}
               text="live"
               icon={<AiOutlinePlayCircle />}
             />

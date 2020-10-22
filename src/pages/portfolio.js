@@ -146,7 +146,6 @@ const Portfolio = ({ data }) => {
           <PortfolioCard index={i} project={project} />
         </CardWrapper>
       ))}
-      {console.log(data)}
       <Background url={data.portfoliobg.childImageSharp.fixed.src} />
     </Wrapper>
   );
