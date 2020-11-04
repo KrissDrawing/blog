@@ -7,6 +7,7 @@ import { FaPowerOff } from "react-icons/fa";
 import Login from "../components/Login/Login";
 import Logout from "../components/Login/Logout";
 import ColorTempPicker from "../components/ColorTempPicker/ColorTempPicker";
+import AlarmClock from "../components/AlarmClock/AlarmClock";
 
 const Wrapper = styled.div`
   display: flex;
@@ -118,7 +119,11 @@ const Controlls = () => {
   let colorMemory;
 
   useEffect(() => {
-    colorMemory = JSON.parse(localStorage.getItem("colorMemory"));
+    if (localStorage.getItem("colorMemory")) {
+      colorMemory = JSON.parse(localStorage.getItem("colorMemory"));
+    } else {
+      colorMemory = { r: 255, g: 0, b: 0, a: 1 };
+    }
     setLightColor({
       r: colorMemory.r,
       g: colorMemory.g,
@@ -236,6 +241,7 @@ const Controlls = () => {
           />
           {lightSections["ambient"] === true ? <h1>ITS WORKIN</h1> : null}
         </ColorPickers>
+        <AlarmClock />
       </>
     );
   } else {

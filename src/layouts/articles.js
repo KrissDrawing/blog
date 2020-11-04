@@ -85,7 +85,15 @@ const BgWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: ${({ color }) => color};
+  color: ${({ color }) => color} !important;
+  & > * {
+    fill: red;
+    stroke: red;
+    & > * {
+      /* fill: red; */
+      stroke: ${({ color }) => color} !important;
+    }
+  }
   opacity: 1;
 `;
 
@@ -119,11 +127,11 @@ const Articles = ({ data, pageContext }) => {
   const bgAnimRef = useRef(null);
 
   const Bearings = [
-    { x: "99vw", y: "10vh", color: "#733dfc" },
-    { x: "99vw", y: "30vh", color: "#b93dfc" },
-    { x: "99vw", y: "50vh", color: "#ff3dfc" },
-    { x: "99vw", y: "70vh", color: "#ff3dfc" },
-    { x: "99vw", y: "90vh", color: "#ff3dfc" },
+    { x: "99vw", y: "10vh", color: "#261A00" },
+    { x: "99vw", y: "30vh", color: "#1F2600" },
+    { x: "99vw", y: "50vh", color: "#0C2600" },
+    { x: "99vw", y: "70vh", color: "#002607" },
+    { x: "99vw", y: "90vh", color: "#00261A" },
   ];
 
   useEffect(() => {
@@ -186,7 +194,7 @@ const Articles = ({ data, pageContext }) => {
       <BackgroundAnimations ref={bgAnimRef}>
         {Bearings.map((item, i) => (
           <BgWrapper key={i} x={item.x} y={item.y} color={item.color}>
-            <GrSettingsOption />
+            <GrSettingsOption color={item.color} />
           </BgWrapper>
         ))}
       </BackgroundAnimations>

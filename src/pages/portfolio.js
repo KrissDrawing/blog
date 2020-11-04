@@ -51,11 +51,20 @@ const HeadingImage = styled(Image)`
 const Portfolio = ({ data }) => {
   const projects = [
     {
+      title: "Taste Experience",
+      tech: "ts, react, firebase - (auth, firestore, functions), redux",
+      desc: `Aplikacja do planowania zadań i odmierzania 5 minutowych interwałów.
+      Umożliwia logowanie w celu zapisu tasków`,
+      code: "https://github.com/KrissDrawing/golden-rule",
+      live: "https://krissdrawing.github.io/golden-rule/#/",
+      img: data.fivemin.childImageSharp.fixed,
+    },
+    {
       title: "CrossyRoad Wannabe",
       tech: "js, three.js, firebase functions",
-      desc: `Copy of popular game Crossy Road made with three.js library. Results are stored in firestore added and readed by cloud functions.
-      Training project. May contain bugs, and bad graphics.
-      Controlls WSAD`,
+      desc: `Kopia popularnej gry CrossyRoad zrobiona w three.js. Wyniki zapisywane są w firestore obbsługiwane przy pomocy cloud functions.
+      Projekt treningowy, zawiera błędy i niedopracowaną grafikę.
+      Sterowanie WSAD`,
       code: "https://github.com/KrissDrawing/CrossyRoadWannabe",
       live: "https://crossyroadwannabe.web.app/",
       img: data.crossyRoad.childImageSharp.fixed,
@@ -63,14 +72,12 @@ const Portfolio = ({ data }) => {
     {
       title: "5min rule",
       tech: "js, react, firebase auth, firestore, context API",
-      desc: `Copy of popular game Crossy Road made with three.js library. Results are stored in firestore added and readed by cloud functions.
-      Training project. May contain bugs, and bad graphics.
-      Controlls WSAD`,
+      desc: `Aplikacja do planowania zadań i odmierzania 5 minutowych interwałów.
+      Umożliwia logowanie w celu zapisu tasków`,
       code: "https://github.com/KrissDrawing/golden-rule",
       live: "https://krissdrawing.github.io/golden-rule/#/",
       img: data.fivemin.childImageSharp.fixed,
     },
-    3,
     4,
   ];
   const cardsRef = useRef([]);
