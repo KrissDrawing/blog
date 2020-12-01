@@ -4,6 +4,7 @@ import { graphql, Link, useStaticQuery } from "gatsby";
 import { FaInstagram } from "react-icons/fa";
 import { FiYoutube } from "react-icons/fi";
 import { BiMenu } from "react-icons/bi";
+import TwitchBanner from "../TwitchBanner/TwitchBanner";
 
 const NavigationWrapper = styled.div<{ expand: boolean }>`
   display: flex;
@@ -90,7 +91,7 @@ const LogoImage = styled.img`
   } */
 `;
 const SocialsWrapper = styled.div<{ expand: boolean }>`
-  display: ${({ expand }) => (expand === true ? "block" : "none")};
+  display: ${({ expand }) => (expand === true ? "flex" : "none")};
   margin: 50px 20px;
   font-size: 3rem;
 
@@ -100,7 +101,8 @@ const SocialsWrapper = styled.div<{ expand: boolean }>`
   }
 
   @media (min-width: 768px) {
-    display: block;
+    display: flex;
+    align-items: center;
     font-size: 1.5rem;
 
     & > a {
@@ -179,6 +181,7 @@ const Navigation = (props: Props) => {
         >
           <FiYoutube />
         </a>
+        <TwitchBanner />
       </SocialsWrapper>
       <BurgerMenu onClick={() => setExpand(!expand)}>
         <BiMenu />
