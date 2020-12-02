@@ -9,7 +9,6 @@ const Wrapper = styled.a`
   transition: color 0.5s ease-out;
   width: 150px;
   height: 100px;
-  /* transition: transform 0.5s ease-out; */
   color: ${({ isLive }) => (isLive === true ? "red" : "gray")} !important;
   border: 2px solid ${({ isLive }) => (isLive === true ? "red" : "gray")};
   padding: 5px;
@@ -45,7 +44,7 @@ const TwitchBanner = () => {
 
   useEffect(async () => {
     const data = await axios.get(
-      "https://api.twitch.tv/helix/streams?user_login=izakooo",
+      "https://api.twitch.tv/helix/streams?user_login=blackfireice",
       {
         headers: {
           "client-id": process.env.TWITCH_CLIENT_ID,
@@ -64,7 +63,6 @@ const TwitchBanner = () => {
       href="https://www.twitch.tv/krissdrawing"
       isLive={isLive}
     >
-      {streamData ? console.log(streamData) : null}
       {isLive === true ? (
         <>
           <div>
