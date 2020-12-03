@@ -11,6 +11,7 @@ const Wrapper = styled.a`
   height: 100px;
   color: ${({ isLive }) => (isLive === true ? "red" : "gray")} !important;
   border: 2px solid ${({ isLive }) => (isLive === true ? "red" : "gray")};
+  background-color: rgba(0, 0, 0, 0.4);
   padding: 5px;
   border-radius: 5px;
   display: flex;
@@ -42,9 +43,13 @@ const TwitchBanner = () => {
   const [streamData, setStreamData] = useState(null);
   const [isLive, setIsLive] = useState(false);
 
+  const trimTitle = (title, amount) => {
+    return title.substring(0, amount) + "...";
+  };
+
   useEffect(async () => {
     const data = await axios.get(
-      "https://api.twitch.tv/helix/streams?user_login=blackfireice",
+      "https://api.twitch.tv/helix/streams?user_login=bixentehs",
       {
         headers: {
           "client-id": process.env.TWITCH_CLIENT_ID,
@@ -71,7 +76,7 @@ const TwitchBanner = () => {
             <BsFillPersonFill />
             <p>{streamData.viewer_count}</p>
           </div>
-          <StreamTitle>{streamData.title}</StreamTitle>
+          <StreamTitle>{trimTitle(streamData.title, 36)}</StreamTitle>
         </>
       ) : (
         <>

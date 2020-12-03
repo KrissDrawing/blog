@@ -70,25 +70,15 @@ const NavigationLink = styled(Link)`
   color: white;
   text-decoration: none;
   transition: font-size 0.1s ease-out;
-  /* transition: transform 0.2s ease-out; */
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
-
-  /* &:hover {
-    font-size: 3rem;
-  } */
 `;
 const LogoImage = styled.img`
-  /* filter: invert(100%); */
   padding: 1px;
   margin: 0 20px;
   border-radius: 50%;
   background-color: white;
   box-shadow: 0px 0px 5px 2px rgba(255, 255, 255, 0.2);
   transition: transform 0.2s ease-out;
-
-  /* &:hover {
-    transform: scale(1.2);
-  } */
 `;
 const SocialsWrapper = styled.div<{ expand: boolean }>`
   display: ${({ expand }) => (expand === true ? "flex" : "none")};
