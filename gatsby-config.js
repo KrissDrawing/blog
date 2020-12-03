@@ -28,9 +28,15 @@ module.exports = {
       },
     },
     {
+      resolve: `gatsby-plugin-disqus`,
+      options: {
+        shortname: `krissdrawing`,
+      },
+    },
+    {
       resolve: `gatsby-plugin-env-variables`,
       options: {
-        allowList: ["TWITCH_OAUTH", "TWITCH_CLIENT_ID"],
+        allowList: ["TWITCH_OAUTH", "TWITCH_CLIENT_ID", "PAGE_URL"],
       },
     },
     {
