@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { FaTwitch } from "react-icons/fa";
-import { BsFillPersonFill } from "react-icons/bs";
 import styled from "styled-components";
 import axios from "axios";
+import { FaTwitch } from "react-icons/fa";
+import { BsFillPersonFill } from "react-icons/bs";
+import { trimString } from "../../utilities/utilities";
 
 const Wrapper = styled.a`
   text-decoration: none;
@@ -43,10 +44,6 @@ const TwitchBanner = () => {
   const [streamData, setStreamData] = useState(null);
   const [isLive, setIsLive] = useState(false);
 
-  const trimTitle = (title, amount) => {
-    return title.substring(0, amount) + "...";
-  };
-
   useEffect(async () => {
     const data = await axios.get(
       "https://api.twitch.tv/helix/streams?user_login=bixentehs",
@@ -76,7 +73,7 @@ const TwitchBanner = () => {
             <BsFillPersonFill />
             <p>{streamData.viewer_count}</p>
           </div>
-          <StreamTitle>{trimTitle(streamData.title, 36)}</StreamTitle>
+          <StreamTitle>{trimString(streamData.title, 36)}</StreamTitle>
         </>
       ) : (
         <>

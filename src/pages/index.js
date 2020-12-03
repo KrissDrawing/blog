@@ -133,7 +133,6 @@ const IndexPage = ({ data }) => {
           content="WFcvnn4Uh8F-dSIl5R5DMJD98D4UakttNbzcPIwWsAI"
         />
       </Helmet>
-      ;
       <Navigation />
       <BackgroundImage fixed={data.background.childImageSharp.fixed} />
       {/* <LogoParticle /> */}

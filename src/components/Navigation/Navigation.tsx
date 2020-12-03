@@ -82,7 +82,7 @@ const LogoImage = styled.img`
 `;
 const SocialsWrapper = styled.div<{ expand: boolean }>`
   display: ${({ expand }) => (expand === true ? "flex" : "none")};
-  margin: 50px 20px;
+  margin: 20px;
   font-size: 3rem;
 
   & > a {

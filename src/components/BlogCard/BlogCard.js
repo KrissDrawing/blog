@@ -7,6 +7,7 @@ import { BiRightArrowAlt } from "react-icons/bi";
 import Category from "../Category/Category";
 import { BreakLine, CategoryDate } from "../../layouts/elements";
 import LinkButton from "../UI/Button/LinkButton";
+import { trimString } from "../../utilities/utilities";
 
 const InfoWrapper = styled.div`
   background-color: ${({ index }) => `hsl(${index * 36},100%,76%)`};
@@ -93,14 +94,14 @@ const BlogCard = ({ item, i }) => {
   return (
     <InfoWrapper ref={cardRef} index={i}>
       <ArticleTitle to={`/articles/${item.slug}`}>
-        <h2>{item.title}</h2>
+        <h2>{trimString(item.title, 26)}</h2>
       </ArticleTitle>
       <BreakLine />
       <CategoryDate>
         <p>Added: {new Date(item.date).toLocaleString()}</p>
         <Category category={item.category} />
       </CategoryDate>
-      <Abstract>{item.abstract}</Abstract>
+      <Abstract>{trimString(item.abstract, 140)}</Abstract>
       <LinkButton
         to={`/articles/${item.slug}`}
         text="See Article"

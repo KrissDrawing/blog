@@ -17,12 +17,6 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-plugin-env-variables`,
-      options: {
-        allowList: ["TWITCH_OAUTH", "TWITCH_CLIENT_ID"],
-      },
-    },
-    {
       resolve: `gatsby-plugin-prefetch-google-fonts`,
       options: {
         fonts: [
@@ -31,6 +25,12 @@ module.exports = {
             variants: [`400`, `600`, `700`],
           },
         ],
+      },
+    },
+    {
+      resolve: `gatsby-plugin-env-variables`,
+      options: {
+        allowList: ["TWITCH_OAUTH", "TWITCH_CLIENT_ID"],
       },
     },
     {

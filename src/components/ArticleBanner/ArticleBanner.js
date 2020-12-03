@@ -4,6 +4,7 @@ import { Link } from "gatsby";
 import Category from "../Category/Category";
 import { CategoryDate } from "../../layouts/elements";
 import { BiRightArrowAlt } from "react-icons/bi";
+import { trimString } from "../../utilities/utilities";
 
 const NewArticle = styled(Link)`
   color: white;
@@ -57,7 +58,7 @@ const ArticleBanner = ({ item, isNew }) => {
         <br /> POST
       </Badge>
       <div>
-        <h2>{item.title}</h2>
+        <h2>{trimString(item.title, 30)}</h2>
         <CategoryDate>
           <p>{new Date(item.date).toLocaleString()}</p>
           <Category category={item.category} />
