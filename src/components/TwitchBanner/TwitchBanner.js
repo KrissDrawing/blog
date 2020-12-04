@@ -44,18 +44,21 @@ const TwitchBanner = () => {
   const [streamData, setStreamData] = useState(null);
   const [isLive, setIsLive] = useState(false);
 
-  useEffect(async () => {
-    const data = await axios.get(
-      "https://api.twitch.tv/helix/streams?user_login=bixentehs",
-      {
-        headers: {
-          "client-id": process.env.TWITCH_CLIENT_ID,
-          Authorization: `Bearer ${process.env.TWITCH_OAUTH}`,
-        },
-      }
-    );
-    setStreamData(data.data.data[0]);
-    if (data.data.data[0]) setIsLive(true);
+  useEffect(() => {
+    const fetchStreamData = async () => {
+      const data = await axios.get(
+        "https://api.twitch.tv/helix/streams?user_login=bonkol",
+        {
+          headers: {
+            "client-id": process.env.TWITCH_CLIENT_ID,
+            Authorization: `Bearer ${process.env.TWITCH_OAUTH}`,
+          },
+        }
+      );
+      setStreamData(data.data.data[0]);
+      if (data.data.data[0]) setIsLive(true);
+    };
+    fetchStreamData();
   }, []);
 
   return (
