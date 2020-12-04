@@ -9,14 +9,13 @@ import { trimString } from "../../utilities/utilities";
 const NewArticle = styled(Link)`
   color: white;
   text-decoration: none;
-  ${({ isNew }) =>
-    isNew
+  ${({ $isNew }) =>
+    $isNew
       ? `position: absolute;
   bottom: 0;
   left: 50%;
   transform: translate(-50%, -50%);`
       : "margin: 20px;"}
-
   width: 90vw;
   background-color: rgba(0, 0, 0, 0.8);
   display: flex;
@@ -52,7 +51,7 @@ const Badge = styled.p`
 
 const ArticleBanner = ({ item, isNew }) => {
   return (
-    <NewArticle isNew={isNew} to={`/articles/${item.slug}`}>
+    <NewArticle $isNew={isNew} to={`/articles/${item.slug}`}>
       <Badge>
         {isNew ? "NEW" : "NEXT"}
         <br /> POST
