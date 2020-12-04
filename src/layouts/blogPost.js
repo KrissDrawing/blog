@@ -1,7 +1,7 @@
 import { graphql, Link } from "gatsby";
 import React from "react";
 import styled from "styled-components";
-import { Disqus } from "gatsby-plugin-disqus";
+import { DiscussionEmbed } from "disqus-react";
 import ArticleBanner from "../components/ArticleBanner/ArticleBanner";
 import Category from "../components/Category/Category";
 import Navigation from "../components/Navigation/Navigation";
@@ -117,11 +117,11 @@ const blogPost = ({ data, pageContext }) => {
             />
           )}
         </div>
-        {console.log(process.env.PAGE_URL)}
-        <Disqus
+        <DiscussionEmbed
+          shortname="krissdrawing"
           config={{
-            url: process.env.PAGE_URL,
-            identifier: `/articles/${pageContext.slug}`,
+            url: `${process.env.PAGE_URL}/articles/${pageContext.slug}`,
+            identifier: pageContext.slug,
             title: data.datoCmsArticle.title,
           }}
         />
