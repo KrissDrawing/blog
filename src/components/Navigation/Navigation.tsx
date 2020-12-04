@@ -20,7 +20,6 @@ const NavigationWrapper = styled.div<{ expand: boolean }>`
   color: white;
 
   @media (min-width: 768px) {
-    /* top: 0; */
     padding-top: 0;
     flex-direction: row;
   }
@@ -28,7 +27,6 @@ const NavigationWrapper = styled.div<{ expand: boolean }>`
   &::after {
     content: "";
     transition: opacity 0.2s ease-in-out;
-    /* display: ${({ expand }) => (expand === true ? "flex" : "none")}; */
     opacity: ${({ expand }) => (expand === true ? "1" : "0")};
     position: absolute;
     top: 0;

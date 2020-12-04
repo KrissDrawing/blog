@@ -18,8 +18,8 @@ const PageLink = styled(Link)`
   align-items: center;
   border-radius: 50%;
   margin: 10px 5px;
-  color: ${({ currentPage }) => (currentPage ? "black" : "white")};
-  background-color: ${({ currentPage }) => (currentPage ? "white" : "none")};
+  color: ${props => (props.$currentPage ? "black" : "white")};
+  background-color: ${props => (props.$currentPage ? "white" : "none")};
   font-weight: 700;
   text-decoration: none;
 `;
@@ -30,7 +30,7 @@ const PageMenu = ({ currentpage, numPages }) => {
       {Array.from({ length: numPages }).map((_, i) => (
         <PageLink
           key={i}
-          currentPage={i + 1 === currentpage}
+          $currentPage={i + 1 === currentpage}
           to={`/articles${i === 0 ? "" : `/${i + 1}`}`}
         >
           {i + 1}
