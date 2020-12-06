@@ -5,6 +5,7 @@ import styled from "styled-components";
 import PortfolioCard from "../components/PortfolioCard/PortfolioCard";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import ContactForm from "../components/ContactForm/ContactForm";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -152,6 +153,7 @@ const Portfolio = ({ data }) => {
         </CardWrapper>
       ))}
       <Background url={data.portfoliobg.childImageSharp.fixed.src} />
+      <ContactForm />
     </Wrapper>
   );
 };
