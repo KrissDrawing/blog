@@ -92,7 +92,7 @@ const blogPost = ({ data, pageContext }) => {
             <Category category={data.datoCmsArticle.category} />
           </CategoryDate>
           <Abstract>
-            <p>Streszczenie</p>
+            Streszczenie
             {data.datoCmsArticle.abstract}
           </Abstract>
           <div>

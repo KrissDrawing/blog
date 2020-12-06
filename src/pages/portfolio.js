@@ -89,8 +89,6 @@ const Portfolio = ({ data }) => {
     const heading = headingRef.current;
 
     gsap.registerPlugin(ScrollTrigger);
-    const tl1 = gsap.timeline();
-
     gsap.fromTo(
       cards[0],
       { y: +250 },

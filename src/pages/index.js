@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import Helmet from "react-helmet";
 import Navigation from "../components/Navigation/Navigation";
-import { graphql, Link } from "gatsby";
+import { graphql } from "gatsby";
 import Image from "gatsby-image";
 import styled, { keyframes } from "styled-components";
 import { gsap } from "gsap";
@@ -135,7 +135,6 @@ const IndexPage = ({ data }) => {
       </Helmet>
       <Navigation />
       <BackgroundImage fixed={data.background.childImageSharp.fixed} />
-      {/* <LogoParticle /> */}
       <GalaxyImage
         ref={logoRef}
         mask={data.logo.childImageSharp.fluid.src}
