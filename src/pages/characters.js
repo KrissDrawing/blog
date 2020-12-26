@@ -22,36 +22,42 @@ const Wrapper = styled.div`
   margin: 50px;
   width: 800px;
   height: 450px;
+  display: flex;
 `;
 
 const Characters = ({ data }) => {
-  const [displayName, setDisplayName] = useState("");
-  const astronautRef = useRef(null);
-  const bannerRef = useRef(null);
+  const [displayName, setDisplayName] = useState([]);
+  const astronautsRef = useRef([]);
+  const bannersRef = useRef([]);
 
   useEffect(() => {
-    const astronaut = astronautRef.current;
-    const banner = bannerRef.current;
+    const astronauts = astronautsRef.current;
+    const banners = bannersRef.current;
 
-    gsap.to(astronaut, {
-      x: "random(-20, 20, 5)",
-      y: "random(-20, 20, 5)",
-      rotation: "random(-10, 10, 5)",
-      duration: 5,
-      ease: "none",
-      repeat: -1,
-      repeatRefresh: true,
+    astronauts.forEach(astronaut => {
+      gsap.to(astronaut, {
+        x: "random(-20, 20, 5)",
+        y: "random(-20, 20, 5)",
+        rotation: "random(-10, 10, 5)",
+        duration: "random(9, 15, 1)",
+        ease: "none",
+        repeat: -1,
+        repeatRefresh: true,
+      });
     });
-    gsap.to(banner, {
-      x: "random(-10, 10, 5)",
-      y: "random(-10, 10, 5)",
-      rotation: "random(-10, 10, 5)",
-      duration: 4,
-      ease: "none",
-      repeat: -1,
-      repeatRefresh: true,
+
+    banners.forEach(banner => {
+      gsap.to(banner, {
+        x: "random(-10, 10, 5)",
+        y: "random(-10, 10, 5)",
+        rotation: "random(-10, 10, 5)",
+        duration: "random(9, 15, 1)",
+        ease: "none",
+        repeat: -1,
+        repeatRefresh: true,
+      });
     });
-  }, [data]);
+  }, [displayName]);
 
   useEffect(() => {
     const ws = new WebSocket("wss://pubsub-edge.twitch.tv");
@@ -81,28 +87,37 @@ const Characters = ({ data }) => {
 
       if (pointsObject.data && pointsObject.data.message) {
         console.log(JSON.parse(pointsObject.data.message));
-        setDisplayName(
+        setDisplayName(prevState => [
+          ...prevState,
           JSON.parse(pointsObject.data.message).data.redemption.user
-            .display_name
-        );
+            .display_name,
+        ]);
       }
     });
   }, []);
 
+  useEffect(() => {
+    if (displayName.length >= 3) {
+      displayName.splice(-1, 1);
+    }
+  }, [displayName]);
+
   return (
     <Wrapper>
-      {displayName !== "" ? (
-        <>
-          <UserBanner ref={bannerRef}>
-            <p>{displayName}</p>
-          </UserBanner>
-          <img
-            ref={astronautRef}
-            src={data.astronaut.childImageSharp.fixed.src}
-          />
-        </>
-      ) : (
-        <p>{trimString("Wykup punkty mordo", 10)}</p>
+      {displayName.map((item, i) =>
+        item !== "" ? (
+          <div key={item + i}>
+            <UserBanner ref={el => (bannersRef.current[i] = el)}>
+              <p>{item}</p>
+            </UserBanner>
+            <img
+              ref={el => (astronautsRef.current[i] = el)}
+              src={data.astronaut.childImageSharp.fixed.src}
+            />
+          </div>
+        ) : (
+          <p>{trimString("Wykup punkty mordo", 10)}</p>
+        )
       )}
     </Wrapper>
   );
