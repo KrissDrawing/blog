@@ -28,7 +28,13 @@ module.exports = {
     {
       resolve: `gatsby-plugin-env-variables`,
       options: {
-        allowList: ["TWITCH_OAUTH", "TWITCH_CLIENT_ID", "PAGE_URL"],
+        allowList: [
+          "TWITCH_OAUTH",
+          "TWITCH_CLIENT_ID",
+          "PAGE_URL",
+          "TWITCH_OAUTH_POINTS",
+          "TWITCH_CHANNEL_ID",
+        ],
       },
     },
     {
