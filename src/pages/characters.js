@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { gql, useMutation } from "@apollo/client";
 import { graphql } from "gatsby";
 import { gsap } from "gsap";
 import styled from "styled-components";
@@ -25,10 +26,44 @@ const Wrapper = styled.div`
   display: flex;
 `;
 
+const CharacterWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const PointsWrapper = styled.div`
+  display: flex;
+  font-weight: bold;
+  color: white;
+  margin-top: -50px;
+  align-items: center;
+  z-index: 1;
+  text-shadow: 3px 3px 3px black;
+  & > p {
+    margin: 5px;
+  }
+  & > img {
+    margin: 0;
+  }
+`;
+
+const mutateQueryColorMain = gql`
+  mutation setColorMain($r: Int = 0, $g: Int = 0, $b: Int = 0, $a: Float = 0) {
+    setColorMain(r: $r, g: $g, b: $b, a: $a) {
+      r
+      g
+      b
+      a
+    }
+  }
+`;
+
 const Characters = ({ data }) => {
-  const [displayName, setDisplayName] = useState([]);
+  const [reward, setReward] = useState([]);
   const astronautsRef = useRef([]);
   const bannersRef = useRef([]);
+  const [mutateColorMain] = useMutation(mutateQueryColorMain);
 
   useEffect(() => {
     const astronauts = astronautsRef.current;
@@ -57,7 +92,32 @@ const Characters = ({ data }) => {
         repeatRefresh: true,
       });
     });
-  }, [displayName]);
+    if (
+      reward[0] &&
+      reward[reward.length - 1].reward.title.includes("Zmień kolor światła:")
+    ) {
+      const rewardedColor = reward[reward.length - 1].reward.title.substring(
+        reward[reward.length - 1].reward.title.lastIndexOf(" ") + 1
+      );
+      let switchColor;
+
+      switch (rewardedColor) {
+        case "czerwony":
+          switchColor = { r: 255, g: 0, b: 0, a: 1 };
+          break;
+        case "zielony":
+          switchColor = { r: 0, g: 255, b: 0, a: 1 };
+          break;
+        case "niebieski":
+          switchColor = { r: 0, g: 0, b: 255, a: 1 };
+          break;
+      }
+
+      mutateColorMain({
+        variables: switchColor,
+      });
+    }
+  }, [reward]);
 
   useEffect(() => {
     const ws = new WebSocket("wss://pubsub-edge.twitch.tv");
@@ -87,34 +147,40 @@ const Characters = ({ data }) => {
 
       if (pointsObject.data && pointsObject.data.message) {
         console.log(JSON.parse(pointsObject.data.message));
-        setDisplayName(prevState => [
+        setReward(prevState => [
           ...prevState,
-          JSON.parse(pointsObject.data.message).data.redemption.user
-            .display_name,
+          JSON.parse(pointsObject.data.message).data.redemption,
         ]);
       }
     });
   }, []);
 
   useEffect(() => {
-    if (displayName.length >= 3) {
-      displayName.splice(-1, 1);
+    if (reward.length > 3) {
+      reward.shift();
+      setReward([...reward]);
     }
-  }, [displayName]);
+  }, [reward]);
 
   return (
     <Wrapper>
-      {displayName.map((item, i) =>
+      {reward.map((item, i) =>
         item !== "" ? (
-          <div key={item + i}>
-            <UserBanner ref={el => (bannersRef.current[i] = el)}>
-              <p>{item}</p>
-            </UserBanner>
-            <img
-              ref={el => (astronautsRef.current[i] = el)}
-              src={data.astronaut.childImageSharp.fixed.src}
-            />
-          </div>
+          <CharacterWrapper key={item + i}>
+            <div>
+              <UserBanner ref={el => (bannersRef.current[i] = el)}>
+                <p>{item.user.display_name}</p>
+              </UserBanner>
+              <img
+                ref={el => (astronautsRef.current[i] = el)}
+                src={data.astronaut.childImageSharp.fixed.src}
+              />
+            </div>
+            <PointsWrapper>
+              <p>-{item.reward.cost}</p>
+              <img src={data.balls.childImageSharp.fixed.src} />
+            </PointsWrapper>
+          </CharacterWrapper>
         ) : (
           <p>{trimString("Wykup punkty mordo", 10)}</p>
         )
@@ -128,6 +194,13 @@ export const query = graphql`
     astronaut: file(name: { eq: "astronaut" }) {
       childImageSharp {
         fixed(width: 100) {
+          src
+        }
+      }
+    }
+    balls: file(name: { eq: "balls" }) {
+      childImageSharp {
+        fixed(width: 32) {
           src
         }
       }
