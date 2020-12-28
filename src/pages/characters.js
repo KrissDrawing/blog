@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import styled from "styled-components";
 import { trimString } from "../utilities/utilities";
 import Character from "../components/Character/Character";
+import { handleReward } from "../firebase/firestoreFunctions";
 
 const UserBanner = styled.div`
   background-color: ${({ color }) => color};
@@ -110,7 +111,6 @@ const Characters = ({ data }) => {
   useEffect(() => {
     const ws = new WebSocket("wss://pubsub-edge.twitch.tv");
     ws.addEventListener("open", () => {
-      console.log("we are connected");
       const pingInterval = setInterval(() => {
         ws.send(JSON.stringify({ type: "PING" }));
       }, 25000);
@@ -139,6 +139,7 @@ const Characters = ({ data }) => {
           ...prevState,
           JSON.parse(pointsObject.data.message).data.redemption,
         ]);
+        handleReward(JSON.parse(pointsObject.data.message).data.redemption);
       }
     });
   }, []);
