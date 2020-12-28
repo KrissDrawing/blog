@@ -4,6 +4,7 @@ import { graphql } from "gatsby";
 import { gsap } from "gsap";
 import styled from "styled-components";
 import { trimString } from "../utilities/utilities";
+import Character from "../components/Character/Character";
 
 const UserBanner = styled.div`
   background-color: #aaa;
@@ -61,25 +62,11 @@ const mutateQueryColorMain = gql`
 
 const Characters = ({ data }) => {
   const [reward, setReward] = useState([]);
-  const astronautsRef = useRef([]);
   const bannersRef = useRef([]);
   const [mutateColorMain] = useMutation(mutateQueryColorMain);
 
   useEffect(() => {
-    const astronauts = astronautsRef.current;
     const banners = bannersRef.current;
-
-    astronauts.forEach(astronaut => {
-      gsap.to(astronaut, {
-        x: "random(-20, 20, 5)",
-        y: "random(-20, 20, 5)",
-        rotation: "random(-10, 10, 5)",
-        duration: "random(9, 15, 1)",
-        ease: "none",
-        repeat: -1,
-        repeatRefresh: true,
-      });
-    });
 
     banners.forEach(banner => {
       gsap.to(banner, {
@@ -171,10 +158,7 @@ const Characters = ({ data }) => {
               <UserBanner ref={el => (bannersRef.current[i] = el)}>
                 <p>{item.user.display_name}</p>
               </UserBanner>
-              <img
-                ref={el => (astronautsRef.current[i] = el)}
-                src={data.astronaut.childImageSharp.fixed.src}
-              />
+              <Character />
             </div>
             <PointsWrapper>
               <p>-{item.reward.cost}</p>
@@ -191,13 +175,6 @@ const Characters = ({ data }) => {
 
 export const query = graphql`
   {
-    astronaut: file(name: { eq: "astronaut" }) {
-      childImageSharp {
-        fixed(width: 100) {
-          src
-        }
-      }
-    }
     balls: file(name: { eq: "balls" }) {
       childImageSharp {
         fixed(width: 32) {
