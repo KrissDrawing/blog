@@ -2,8 +2,7 @@ import db from "./firebaseConfig";
 
 const userRef = db.firestore().collection("users");
 
-export const readUser = async id => {
-  let data;
+const readUser = async id => {
   try {
     const doc = await userRef.doc(id.toString()).get();
     if (!doc.exists) {
@@ -16,7 +15,7 @@ export const readUser = async id => {
   }
 };
 
-export const updateUser = (dbUser, rewardData) => {
+const updateUser = (dbUser, rewardData) => {
   let finalUser;
 
   if (dbUser === "error") {
@@ -40,7 +39,7 @@ export const updateUser = (dbUser, rewardData) => {
   return finalUser;
 };
 
-export const setUser = async (id, user) => {
+const setUser = async (id, user) => {
   await userRef.doc(id).set(user);
 };
 
@@ -48,4 +47,15 @@ export const handleReward = async rewardData => {
   const dbUser = await readUser(rewardData.user.id);
   const finalUser = updateUser(dbUser, rewardData);
   setUser(rewardData.user.id, finalUser);
+};
+
+const queueRef = db.firestore().collection("queue");
+
+export const saveLastRedeems = async rewards => {
+  await queueRef.doc("queue").set({ rewards: JSON.stringify(rewards) });
+};
+
+export const loadLastRedeems = async () => {
+  const data = await queueRef.doc("queue").get();
+  return JSON.parse(data.data().rewards);
 };

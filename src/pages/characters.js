@@ -5,7 +5,11 @@ import { gsap } from "gsap";
 import styled from "styled-components";
 import { trimString } from "../utilities/utilities";
 import Character from "../components/Character/Character";
-import { handleReward } from "../firebase/firestoreFunctions";
+import {
+  handleReward,
+  saveLastRedeems,
+  loadLastRedeems,
+} from "../firebase/firestoreFunctions";
 
 const UserBanner = styled.div`
   background-color: ${({ color }) => color};
@@ -66,6 +70,14 @@ const Characters = ({ data }) => {
   const [reward, setReward] = useState([]);
   const bannersRef = useRef([]);
   const [mutateColorMain] = useMutation(mutateQueryColorMain);
+
+  useEffect(() => {
+    const fetchQueue = async () => {
+      const rewardQueue = await loadLastRedeems();
+      setReward([...rewardQueue]);
+    };
+    fetchQueue();
+  }, []);
 
   useEffect(() => {
     const banners = bannersRef.current;
@@ -148,6 +160,9 @@ const Characters = ({ data }) => {
     if (reward.length > 3) {
       reward.shift();
       setReward([...reward]);
+    }
+    if (reward.length > 0) {
+      saveLastRedeems(reward);
     }
   }, [reward]);
 
