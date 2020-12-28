@@ -7,7 +7,8 @@ import { trimString } from "../utilities/utilities";
 import Character from "../components/Character/Character";
 
 const UserBanner = styled.div`
-  background-color: #aaa;
+  background-color: ${({ color }) => color};
+  color: white;
   width: 120px;
   display: flex;
   justify-content: center;
@@ -155,7 +156,10 @@ const Characters = ({ data }) => {
         item !== "" ? (
           <CharacterWrapper key={item + i}>
             <div>
-              <UserBanner ref={el => (bannersRef.current[i] = el)}>
+              <UserBanner
+                color={item.reward.background_color}
+                ref={el => (bannersRef.current[i] = el)}
+              >
                 <p>{item.user.display_name}</p>
               </UserBanner>
               <Character />
