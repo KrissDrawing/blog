@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useStaticQuery, graphql } from "gatsby";
 import { gsap } from "gsap";
 import styled from "styled-components";
@@ -69,6 +69,14 @@ const LeftLeg = styled.img`
   left: 70px;
   top: 63px;
   z-index: -1;
+`;
+
+const Rope = styled.svg`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -2;
 `;
 
 const Character = () => {
@@ -142,14 +150,19 @@ const Character = () => {
   }, []);
 
   return (
-    <Wrapper ref={bodyRef}>
-      <Body src={data.body.childImageSharp.fixed.src} />
-      <Head ref={headRef} src={data.head.childImageSharp.fixed.src} />
-      <RightHand ref={rightHandRef} src={data.hand.childImageSharp.fixed.src} />
-      <RightLeg ref={rightLegRef} src={data.leg.childImageSharp.fixed.src} />
-      <LeftHand ref={leftHandRef} src={data.hand.childImageSharp.fixed.src} />
-      <LeftLeg ref={leftLegRef} src={data.leg.childImageSharp.fixed.src} />
-    </Wrapper>
+    <>
+      <Wrapper ref={bodyRef}>
+        <Body src={data.body.childImageSharp.fixed.src} />
+        <Head ref={headRef} src={data.head.childImageSharp.fixed.src} />
+        <RightHand
+          ref={rightHandRef}
+          src={data.hand.childImageSharp.fixed.src}
+        />
+        <RightLeg ref={rightLegRef} src={data.leg.childImageSharp.fixed.src} />
+        <LeftHand ref={leftHandRef} src={data.hand.childImageSharp.fixed.src} />
+        <LeftLeg ref={leftLegRef} src={data.leg.childImageSharp.fixed.src} />
+      </Wrapper>
+    </>
   );
 };
 
