@@ -47,7 +47,7 @@ const TwitchBanner = () => {
   useEffect(() => {
     const fetchStreamData = async () => {
       const data = await axios.get(
-        "https://api.twitch.tv/helix/streams?user_login=bonkol",
+        "https://api.twitch.tv/helix/streams?user_login=krissdrawing",
         {
           headers: {
             "client-id": process.env.TWITCH_CLIENT_ID,

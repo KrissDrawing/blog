@@ -3,7 +3,7 @@ import { useStaticQuery, graphql } from "gatsby";
 import { gsap } from "gsap";
 import styled from "styled-components";
 
-export const query = graphql`
+const query = graphql`
   {
     head: file(name: { eq: "head" }) {
       childImageSharp {
@@ -38,6 +38,7 @@ export const query = graphql`
 
 const Wrapper = styled.div`
   position: relative;
+  transform: scale(0.7);
 `;
 
 const Body = styled.img`
@@ -69,14 +70,6 @@ const LeftLeg = styled.img`
   left: 70px;
   top: 63px;
   z-index: -1;
-`;
-
-const Rope = styled.svg`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: -2;
 `;
 
 const Character = () => {

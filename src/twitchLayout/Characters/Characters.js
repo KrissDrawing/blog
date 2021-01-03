@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { gql, useMutation } from "@apollo/client";
 import { graphql, useStaticQuery } from "gatsby";
-import { gsap } from "gsap";
-import { MotionPathPlugin } from "gsap/all";
 import styled from "styled-components";
 import { trimString } from "../../utilities/utilities";
 import Character from "../Character/Character";
@@ -11,26 +9,13 @@ import {
   saveLastRedeems,
   loadLastRedeems,
 } from "../../firebase/firestoreFunctions";
+import UserBanner from "../Components/UserBanner/UserBanner";
 
-const UserBanner = styled.div`
-  background-color: ${({ color }) => color};
-  color: white;
-  width: 120px;
-  display: flex;
-  justify-content: center;
-  border-radius: 5px;
-  border: 2px solid white;
-  font-weight: bold;
-  font-size: 16px;
-  & > p {
-    margin: 0;
-  }
-`;
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
   position: absolute;
-  top: 48vh;
+  top: 50vh;
   left: 2vh;
 `;
 
@@ -70,7 +55,6 @@ const mutateQueryColorMain = gql`
 const Characters = () => {
   const data = useStaticQuery(query);
   const [reward, setReward] = useState([]);
-  const bannersRef = useRef([]);
   const [mutateColorMain] = useMutation(mutateQueryColorMain);
 
   useEffect(() => {
@@ -82,21 +66,6 @@ const Characters = () => {
   }, []);
 
   useEffect(() => {
-    const banners = bannersRef.current;
-
-    gsap.registerPlugin(MotionPathPlugin);
-
-    banners.forEach(banner => {
-      gsap.to(banner, {
-        x: "random(-10, 10, 5)",
-        y: "random(-10, 10, 5)",
-        rotation: "random(-10, 10, 5)",
-        duration: "random(9, 15, 1)",
-        ease: "none",
-        repeat: -1,
-        repeatRefresh: true,
-      });
-    });
     if (
       reward[0] &&
       reward[reward.length - 1].reward.title.includes("Zmień kolor światła:")
@@ -178,10 +147,8 @@ const Characters = () => {
             <div>
               <UserBanner
                 color={item.reward.background_color}
-                ref={el => (bannersRef.current[i] = el)}
-              >
-                <p>{item.user.display_name}</p>
-              </UserBanner>
+                name={item.user.display_name}
+              />
               <Character />
             </div>
             <PointsWrapper>
