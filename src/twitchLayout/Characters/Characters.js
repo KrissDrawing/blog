@@ -1,17 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import { gql, useMutation } from "@apollo/client";
-import { graphql } from "gatsby";
+import { graphql, useStaticQuery } from "gatsby";
 import { gsap } from "gsap";
 import { MotionPathPlugin } from "gsap/all";
 import styled from "styled-components";
-import { trimString } from "../utilities/utilities";
-import Character from "../components/Character/Character";
+import { trimString } from "../../utilities/utilities";
+import Character from "../Character/Character";
 import {
   handleReward,
   saveLastRedeems,
   loadLastRedeems,
-} from "../firebase/firestoreFunctions";
-import TwitchFollowAlert from "../components/TwitchFollowAlert/TwitchFollowAlert";
+} from "../../firebase/firestoreFunctions";
 
 const UserBanner = styled.div`
   background-color: ${({ color }) => color};
@@ -27,23 +26,18 @@ const UserBanner = styled.div`
     margin: 0;
   }
 `;
-
 const Wrapper = styled.div`
-  margin: 50px;
-  width: 100%;
-  height: 450px;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 48vh;
+  left: 2vh;
 `;
 
 const CharacterWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-const CharactersWrapper = styled.div`
-  position: absolute;
-  display: flex;
-  top: 48%;
-  left: 2%;
 `;
 
 const PointsWrapper = styled.div`
@@ -73,7 +67,8 @@ const mutateQueryColorMain = gql`
   }
 `;
 
-const Characters = ({ data }) => {
+const Characters = () => {
+  const data = useStaticQuery(query);
   const [reward, setReward] = useState([]);
   const bannersRef = useRef([]);
   const [mutateColorMain] = useMutation(mutateQueryColorMain);
@@ -177,30 +172,27 @@ const Characters = ({ data }) => {
 
   return (
     <Wrapper>
-      <TwitchFollowAlert />
-      <CharactersWrapper>
-        {reward.map((item, i) =>
-          item !== "" ? (
-            <CharacterWrapper key={item + i}>
-              <div>
-                <UserBanner
-                  color={item.reward.background_color}
-                  ref={el => (bannersRef.current[i] = el)}
-                >
-                  <p>{item.user.display_name}</p>
-                </UserBanner>
-                <Character />
-              </div>
-              <PointsWrapper>
-                <p>-{item.reward.cost}</p>
-                <img src={data.balls.childImageSharp.fixed.src} />
-              </PointsWrapper>
-            </CharacterWrapper>
-          ) : (
-            <p>{trimString("Wykup punkty mordo", 10)}</p>
-          )
-        )}
-      </CharactersWrapper>
+      {reward.map((item, i) =>
+        item !== "" ? (
+          <CharacterWrapper key={item + i}>
+            <div>
+              <UserBanner
+                color={item.reward.background_color}
+                ref={el => (bannersRef.current[i] = el)}
+              >
+                <p>{item.user.display_name}</p>
+              </UserBanner>
+              <Character />
+            </div>
+            <PointsWrapper>
+              <p>-{item.reward.cost}</p>
+              <img src={data.balls.childImageSharp.fixed.src} />
+            </PointsWrapper>
+          </CharacterWrapper>
+        ) : (
+          <p>{trimString("Wykup punkty mordo", 10)}</p>
+        )
+      )}
     </Wrapper>
   );
 };

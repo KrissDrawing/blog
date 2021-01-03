@@ -79,9 +79,9 @@ const TwitchFollowAlert = () => {
       car,
       {
         x: "100%",
-        y: "random(-100,150,10)",
+        y: "random(-50,150,10)",
       },
-      { x: "-330", duration: "4", ease: "power1.out" }
+      { x: "-50", duration: "4", ease: "power1.out" }
     )
       .to(banner, { css: { scaleX: 1 } })
       .fromTo(
@@ -90,7 +90,8 @@ const TwitchFollowAlert = () => {
         { autoAlpha: 1, x: "-=100", y: "-=50" }
       )
       .to(bannerActive, { autoAlpha: 1, ease: "back.out" })
-      .to(car, { duration: "4", autoAlpha: 0, ease: "power3.in" });
+      .to(car, { duration: "2" })
+      .to(car, { duration: "2", x: "-600" });
   }, []);
 
   const data = useStaticQuery(query);
