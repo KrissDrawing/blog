@@ -1,7 +1,7 @@
-import { ApolloProvider, gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import client from "../gatsby-theme-apollo/client";
+import { apolloClient } from "../gatsby-theme-apollo/client";
 import { HuePicker, AlphaPicker } from "react-color";
 import { FaPowerOff } from "react-icons/fa";
 import Login from "../components/Login/Login";
@@ -248,11 +248,7 @@ const Controlls = () => {
     content = <Login />;
   }
 
-  return (
-    <ApolloProvider client={client}>
-      <Wrapper>{content}</Wrapper>
-    </ApolloProvider>
-  );
+  return <Wrapper>{content}</Wrapper>;
 };
 
 export default Controlls;

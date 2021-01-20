@@ -4,4 +4,15 @@
  * See: https://www.gatsbyjs.com/docs/ssr-apis/
  */
 
-// You can delete this file if you're not using it
+import React from "react";
+import { apolloClient } from "./src/gatsby-theme-apollo/client";
+import {  ApolloProvider } from "@apollo/client";
+
+export const wrapRootElement = ({ Root }) => {
+  if (!apolloClient) return <h3>Loading...</h3>;
+  return (
+    <ApolloProvider client={apolloClient}>
+      <Root />
+    </ApolloProvider>
+  );
+};
