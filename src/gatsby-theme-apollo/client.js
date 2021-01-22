@@ -5,7 +5,7 @@ import { WebSocketLink } from "@apollo/client/link/ws";
 
 const wsLink = process.browser
   ? new WebSocketLink({
-      uri: `ws://localhost:3000/graphql`,
+      uri: `ws://192.168.1.48:3000/graphql`,
       options: {
         reconnect: true,
       },
@@ -14,7 +14,7 @@ const wsLink = process.browser
 
 const httpLink = new HttpLink({
   fetch,
-  uri: "http://localhost:3000/graphql",
+  uri: "http://192.168.1.48:3000/graphql",
 });
 
 const splitLink = process.browser

@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 const CharacterWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-center;
 `;
 
 const PointsWrapper = styled.div`
@@ -144,13 +144,10 @@ const Characters = () => {
       {reward.map((item, i) =>
         item !== "" ? (
           <CharacterWrapper key={item + i}>
-            <div>
-              <UserBanner
-                color={item.reward.background_color}
-                name={item.user.display_name}
-              />
-              <Character />
-            </div>
+            <Character
+              color={item.reward.background_color}
+              name={item.user.display_name}
+            />
             <PointsWrapper>
               <p>-{item.reward.cost}</p>
               <img src={data.balls.childImageSharp.fixed.src} />

@@ -48,14 +48,7 @@ const LastSubscriber = () => {
         <p>Subów: {lastSubInfo.length - 1}</p>
       </InfoWrapper>
       {lastSubInfo.length > 0 ? (
-        <CharacterWrapper>
-          <UserBanner
-            sub={true}
-            color="#fcba03"
-            name={lastSubInfo[0].user_name}
-          />
-          <Character />
-        </CharacterWrapper>
+        <Character sub={true} color="#fcba03" name={lastSubInfo[0].user_name} />
       ) : (
         <p>Ludzie! przecież tu nikogo nie ma!</p>
       )}

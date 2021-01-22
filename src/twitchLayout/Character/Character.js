@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { useStaticQuery, graphql } from "gatsby";
 import { gsap } from "gsap";
 import styled from "styled-components";
+import UserBanner from "../Components/UserBanner/UserBanner";
 
 const query = graphql`
   {
@@ -37,6 +38,13 @@ const query = graphql`
 `;
 
 const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+`;
+
+const CharacterWrapper = styled.div`
   position: relative;
   transform: scale(0.7);
 `;
@@ -72,7 +80,7 @@ const LeftLeg = styled.img`
   z-index: -1;
 `;
 
-const Character = () => {
+const Character = ({ name, color, roll, ...props }) => {
   const data = useStaticQuery(query);
 
   const bodyRef = useRef(null);
@@ -95,56 +103,48 @@ const Character = () => {
     gsap.set(rightLeg, { transformOrigin: "30% 15%" });
     gsap.set(leftHand, { transformOrigin: "50% 25%", rotation: "-60" });
     gsap.set(leftLeg, { transformOrigin: "30% 15%", rotation: "-60" });
-
+    gsap.defaults({ ease: "none", repeat: -1, repeatRefresh: true });
     gsap.to(body, {
       x: "random(-20, 20, 5)",
       y: "random(-20, 20, 5)",
       rotation: "random(-10, 10, 5)",
       duration: "random(9, 15, 1)",
-      ease: "none",
-      repeat: -1,
-      repeatRefresh: true,
     });
+
+    if (roll) {
+      gsap.to(body, {
+        rotation: "-1800",
+        duration: 10,
+      });
+    }
+
     gsap.to(head, {
       rotation: "random(-15, 15, 5)",
       duration: "random(4, 6, 1)",
       ease: "power1.inOut",
-      repeat: -1,
-      repeatRefresh: true,
     });
     gsap.to(rightHand, {
       rotation: "random(-50, 10, 5)",
       duration: "random(4, 6, 1)",
-      ease: "none",
-      repeat: -1,
-      repeatRefresh: true,
     });
     gsap.to(rightLeg, {
       rotation: "random(-50, 10, 5)",
       duration: "random(4, 6, 1)",
-      ease: "none",
-      repeat: -1,
-      repeatRefresh: true,
     });
     gsap.to(leftHand, {
       rotation: "random(-40, -80, 5)",
       duration: "random(4, 6, 1)",
-      ease: "none",
-      repeat: -1,
-      repeatRefresh: true,
     });
     gsap.to(leftLeg, {
       rotation: "random(0, -70, 5)",
       duration: "random(4, 6, 1)",
-      ease: "none",
-      repeat: -1,
-      repeatRefresh: true,
     });
   }, []);
 
   return (
-    <>
-      <Wrapper ref={bodyRef}>
+    <Wrapper>
+      <UserBanner name={name} color={color} {...props} />
+      <CharacterWrapper ref={bodyRef}>
         <Body src={data.body.childImageSharp.fixed.src} />
         <Head ref={headRef} src={data.head.childImageSharp.fixed.src} />
         <RightHand
@@ -154,8 +154,8 @@ const Character = () => {
         <RightLeg ref={rightLegRef} src={data.leg.childImageSharp.fixed.src} />
         <LeftHand ref={leftHandRef} src={data.hand.childImageSharp.fixed.src} />
         <LeftLeg ref={leftLegRef} src={data.leg.childImageSharp.fixed.src} />
-      </Wrapper>
-    </>
+      </CharacterWrapper>
+    </Wrapper>
   );
 };
 
