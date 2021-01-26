@@ -13,8 +13,10 @@ const Wrapper = styled.div`
   border: 2px solid white;
   font-weight: bold;
   font-size: 16px;
+  box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.3);
   & > p {
     margin: 0;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 1);
   }
   position: relative;
 `;

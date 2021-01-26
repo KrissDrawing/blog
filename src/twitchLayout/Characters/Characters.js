@@ -1,15 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation, useSubscription, useQuery } from "@apollo/client";
 import { graphql, useStaticQuery } from "gatsby";
 import styled from "styled-components";
 import { trimString } from "../../utilities/utilities";
 import Character from "../Character/Character";
-import {
-  handleReward,
-  saveLastRedeems,
-  loadLastRedeems,
-} from "../../firebase/firestoreFunctions";
-import UserBanner from "../Components/UserBanner/UserBanner";
 
 const Wrapper = styled.div`
   display: flex;
@@ -41,93 +35,51 @@ const PointsWrapper = styled.div`
   }
 `;
 
-const mutateQueryColorMain = gql`
-  mutation setColorMain($r: Int = 0, $g: Int = 0, $b: Int = 0, $a: Float = 0) {
-    setColorMain(r: $r, g: $g, b: $b, a: $a) {
-      r
-      g
-      b
-      a
+const GET_QUEUE = gql`
+  {
+    queue
+  }
+`;
+
+const QUEUE_MUTATION = gql`
+  mutation queue($payload: String! = "queue") {
+    queue(payload: $payload)
+  }
+`;
+
+const POINTS_SUBSCRIPTION = gql`
+  subscription {
+    subscribePoints(topic: "points") {
+      rewardPrompt
+      userDisplayName
+      rewardCost
     }
   }
 `;
 
 const Characters = () => {
+  const { data: pointsData = "", loading } = useSubscription(
+    POINTS_SUBSCRIPTION
+  );
+  const { loading: loadingQueue, __, data: startQueue } = useQuery(GET_QUEUE);
   const data = useStaticQuery(query);
   const [reward, setReward] = useState([]);
-  const [mutateColorMain] = useMutation(mutateQueryColorMain);
+  const [mutateQueue] = useMutation(QUEUE_MUTATION);
 
   useEffect(() => {
-    const fetchQueue = async () => {
-      const rewardQueue = await loadLastRedeems();
-      setReward([...rewardQueue]);
-    };
-    fetchQueue();
-  }, []);
-
-  useEffect(() => {
-    if (
-      reward[0] &&
-      reward[reward.length - 1].reward.title.includes("Zmień kolor światła:")
-    ) {
-      const rewardedColor = reward[reward.length - 1].reward.title.substring(
-        reward[reward.length - 1].reward.title.lastIndexOf(" ") + 1
-      );
-      let switchColor;
-
-      switch (rewardedColor) {
-        case "czerwony":
-          switchColor = { r: 255, g: 0, b: 0, a: 1 };
-          break;
-        case "zielony":
-          switchColor = { r: 0, g: 255, b: 0, a: 1 };
-          break;
-        case "niebieski":
-          switchColor = { r: 0, g: 0, b: 255, a: 1 };
-          break;
-      }
-
-      mutateColorMain({
-        variables: switchColor,
-      });
+    if (!loadingQueue && startQueue) {
+      const fetchQueue = async () => {
+        setReward([...JSON.parse(startQueue.queue)]);
+      };
+      fetchQueue();
     }
-  }, [reward]);
+  }, [startQueue]);
 
   useEffect(() => {
-    const ws = new WebSocket("wss://pubsub-edge.twitch.tv");
-    ws.addEventListener("open", () => {
-      const pingInterval = setInterval(() => {
-        ws.send(JSON.stringify({ type: "PING" }));
-      }, 25000);
-
-      ws.send(
-        JSON.stringify({
-          type: "LISTEN",
-          nonce: "44h1k13746815ab1r2",
-          data: {
-            topics: [
-              `channel-points-channel-v1.${process.env.TWITCH_CHANNEL_ID}`,
-            ],
-            auth_token: process.env.TWITCH_OAUTH_POINTS,
-          },
-        })
-      );
-      return () => pingInterval;
-    });
-
-    ws.addEventListener("message", data => {
-      let pointsObject = JSON.parse(data.data);
-
-      if (pointsObject.data && pointsObject.data.message) {
-        console.log(JSON.parse(pointsObject.data.message));
-        setReward(prevState => [
-          ...prevState,
-          JSON.parse(pointsObject.data.message).data.redemption,
-        ]);
-        handleReward(JSON.parse(pointsObject.data.message).data.redemption);
-      }
-    });
-  }, []);
+    console.log(pointsData);
+    if (pointsData && pointsData.subscribePoints.userDisplayName)
+      setReward(prevState => [...prevState, pointsData]);
+  }, [pointsData]);
 
   useEffect(() => {
     if (reward.length > 3) {
@@ -135,7 +87,7 @@ const Characters = () => {
       setReward([...reward]);
     }
     if (reward.length > 0) {
-      saveLastRedeems(reward);
+      mutateQueue({ variables: { payload: JSON.stringify(reward) } });
     }
   }, [reward]);
 
@@ -145,17 +97,17 @@ const Characters = () => {
         item !== "" ? (
           <CharacterWrapper key={item + i}>
             <Character
-              color={item.reward.background_color}
-              name={item.user.display_name}
+              color={`hsl(${
+                Math.floor(Math.random() * (255 - 1 + 1)) + 1
+              }, 100%, 50%)`}
+              name={item.subscribePoints.userDisplayName}
             />
             <PointsWrapper>
-              <p>-{item.reward.cost}</p>
+              <p>-{item.subscribePoints.rewardCost}</p>
               <img src={data.balls.childImageSharp.fixed.src} />
             </PointsWrapper>
           </CharacterWrapper>
-        ) : (
-          <p>{trimString("Wykup punkty mordo", 10)}</p>
-        )
+        ) : null
       )}
     </Wrapper>
   );
