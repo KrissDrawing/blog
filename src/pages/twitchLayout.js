@@ -4,6 +4,7 @@ import Characters from "../twitchLayout/Characters/Characters";
 import TwitchFollowAlert from "../twitchLayout/TwitchFollowAlert/TwitchFollowAlert";
 import LastSubscriber from "../twitchLayout/LastSubscriber/LastSubscriber";
 import TwitchAlert from "../twitchLayout/TwitchAlert/TwitchAlert";
+import InstagramAlert from "../twitchLayout/InstagramAlert/InstagramAlert";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -15,6 +16,7 @@ const twitchLayout = () => {
   return (
     <Wrapper>
       <TwitchAlert />
+      <InstagramAlert />
       <TwitchFollowAlert />
       <Characters />
       <LastSubscriber />

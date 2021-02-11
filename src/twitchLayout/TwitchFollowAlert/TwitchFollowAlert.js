@@ -65,6 +65,8 @@ const TwitchFollowAlert = () => {
   const bannerActiveRef = useRef(null);
   const cursorRef = useRef(null);
 
+  const data = useStaticQuery(query);
+
   useEffect(() => {
     const car = carRef.current;
     const banner = bannerRef.current;
@@ -94,7 +96,6 @@ const TwitchFollowAlert = () => {
       .to(car, { duration: "2", x: "-600" });
   }, []);
 
-  const data = useStaticQuery(query);
   return (
     <Wrapper ref={carRef}>
       <Car src={data.octane.publicURL} />
