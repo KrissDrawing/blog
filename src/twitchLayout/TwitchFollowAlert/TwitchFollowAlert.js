@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { useStaticQuery, graphql } from "gatsby";
+import { gql, useSubscription } from "@apollo/client";
 import styled, { css } from "styled-components";
 import gsap from "gsap";
 import { FcCursor } from "react-icons/fc";
@@ -9,6 +10,12 @@ export const query = graphql`
     octane: file(name: { eq: "octane" }) {
       publicURL
     }
+  }
+`;
+
+const FOLLOW_ALERT_SUBSCRIPTION = gql`
+  subscription {
+    subscribeAlert(topic: "followAlert")
   }
 `;
 
@@ -64,27 +71,30 @@ const TwitchFollowAlert = () => {
   const bannerRef = useRef(null);
   const bannerActiveRef = useRef(null);
   const cursorRef = useRef(null);
+  const timeline = useRef(null);
 
   const data = useStaticQuery(query);
+  const { data: alertTrigger } = useSubscription(FOLLOW_ALERT_SUBSCRIPTION);
 
   useEffect(() => {
     const car = carRef.current;
     const banner = bannerRef.current;
     const bannerActive = bannerActiveRef.current;
     const cursor = cursorRef.current;
-    const tl = gsap.timeline({ repeat: -1, repeatDelay: 600 });
-    tl.set(banner, { css: { scaleX: 0 } });
-    tl.set(bannerActive, { autoAlpha: 0 });
-    tl.set(cursor, { autoAlpha: 0 });
+    timeline.current = gsap.timeline();
+    timeline.current.set(banner, { css: { scaleX: 0 } });
+    timeline.current.set(bannerActive, { autoAlpha: 0 });
+    timeline.current.set(cursor, { autoAlpha: 0 });
 
-    tl.fromTo(
-      car,
-      {
-        x: "100%",
-        y: "random(-50,150,10)",
-      },
-      { x: "-50", duration: "4", ease: "power1.out" }
-    )
+    timeline.current
+      .fromTo(
+        car,
+        {
+          x: "100%",
+          y: "random(-50,150,10)",
+        },
+        { x: "-50", duration: "4", ease: "power1.out" }
+      )
       .to(banner, { css: { scaleX: 1 } })
       .fromTo(
         cursor,
@@ -94,7 +104,13 @@ const TwitchFollowAlert = () => {
       .to(bannerActive, { autoAlpha: 1, ease: "back.out" })
       .to(car, { duration: "2" })
       .to(car, { duration: "2", x: "-600" });
+
+    return () => timeline.current.kill();
   }, []);
+
+  useEffect(() => {
+    timeline.current.restart(true);
+  }, [alertTrigger]);
 
   return (
     <Wrapper ref={carRef}>

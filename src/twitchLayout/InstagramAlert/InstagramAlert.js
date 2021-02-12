@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useStaticQuery, graphql } from "gatsby";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery, useSubscription } from "@apollo/client";
 import gsap from "gsap";
 import { SiInstagram } from "react-icons/si";
 
@@ -15,6 +15,12 @@ export const INSTAGRAM_MASK = graphql`
     mask: file(name: { eq: "instagramMask" }) {
       publicURL
     }
+  }
+`;
+
+const INSTAGRAM_ALERT_SUBSCRIPTION = gql`
+  subscription {
+    subscribeAlert(topic: "instagramAlert")
   }
 `;
 
@@ -68,6 +74,8 @@ const UserName = styled.div`
 
 const InstagramAlert = () => {
   const instaPhotoRef = useRef(null);
+  const timeline = useRef(null);
+  const { data: alertTrigger } = useSubscription(INSTAGRAM_ALERT_SUBSCRIPTION);
 
   const { loading, error, data } = useQuery(INSTAGRAM_URL);
   const instagramMask = useStaticQuery(INSTAGRAM_MASK);
@@ -75,24 +83,30 @@ const InstagramAlert = () => {
   useEffect(() => {
     const instaPhoto = instaPhotoRef.current.children;
 
-    const tl = gsap.timeline({ repeat: -1, repeatDelay: 660 });
-    tl.fromTo(
-      instaPhoto,
-      {
-        x: "+=400",
-      },
-      {
-        x: "-=400",
-        stagger: { each: 0.1, from: "random" },
-      }
-    )
+    timeline.current = gsap
+      .timeline()
+      .fromTo(
+        instaPhoto,
+        {
+          x: "+=400",
+        },
+        {
+          x: "-=400",
+          stagger: { each: 0.1, from: "random" },
+        }
+      )
       .to(instaPhoto, { duration: 10 })
       .to(instaPhoto, {
         x: "+=400",
         stagger: { each: 0.1, from: "random" },
       });
+
+    return () => timeline.current.kill();
   }, []);
 
+  useEffect(() => {
+    timeline.current.restart(true);
+  }, [alertTrigger]);
   return (
     <>
       <Wrapper ref={instaPhotoRef}>
