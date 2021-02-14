@@ -80,7 +80,7 @@ const TwitchAlert = () => {
     <Wrapper>
       <CharacterWrapper ref={wrapperRef}>
         <h4>Nowy follower:</h4>
-        {!loadingLastFollow ? (
+        {!loadingLastFollow && lastFollower ? (
           <Character
             roll
             color="black"

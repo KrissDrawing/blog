@@ -6,31 +6,39 @@ import UserBanner from "../Components/UserBanner/UserBanner";
 
 const query = graphql`
   {
-    head: file(name: { eq: "head" }) {
-      childImageSharp {
-        fixed(width: 50) {
-          src
+    head: allFile(filter: { name: { eq: "head" } }) {
+      nodes {
+        childImageSharp {
+          fixed(width: 50) {
+            src
+          }
         }
       }
     }
-    hand: file(name: { eq: "hand" }) {
-      childImageSharp {
-        fixed(width: 35) {
-          src
+    hand: allFile(filter: { name: { eq: "hand" } }) {
+      nodes {
+        childImageSharp {
+          fixed(width: 35) {
+            src
+          }
         }
       }
     }
-    leg: file(name: { eq: "leg" }) {
-      childImageSharp {
-        fixed(width: 35) {
-          src
+    leg: allFile(filter: { name: { eq: "leg" } }) {
+      nodes {
+        childImageSharp {
+          fixed(width: 35) {
+            src
+          }
         }
       }
     }
-    body: file(name: { eq: "body" }) {
-      childImageSharp {
-        fixed(width: 100) {
-          src
+    body: allFile(filter: { name: { eq: "body" } }) {
+      nodes {
+        childImageSharp {
+          fixed(width: 100) {
+            src
+          }
         }
       }
     }
@@ -82,6 +90,7 @@ const LeftLeg = styled.img`
 
 const Character = ({ name, color, roll, ...props }) => {
   const data = useStaticQuery(query);
+  const [costumeNumber, setCostumeNumber] = useState(0);
 
   const bodyRef = useRef(null);
   const headRef = useRef(null);
@@ -91,6 +100,8 @@ const Character = ({ name, color, roll, ...props }) => {
   const leftLegRef = useRef(null);
 
   useEffect(() => {
+    if (data)
+      setCostumeNumber(Math.floor(Math.random() * data.head.nodes.length));
     const body = bodyRef.current;
     const head = headRef.current;
     const rightHand = rightHandRef.current;
@@ -145,15 +156,27 @@ const Character = ({ name, color, roll, ...props }) => {
     <Wrapper>
       <UserBanner name={name} color={color} {...props} />
       <CharacterWrapper ref={bodyRef}>
-        <Body src={data.body.childImageSharp.fixed.src} />
-        <Head ref={headRef} src={data.head.childImageSharp.fixed.src} />
+        <Body src={data.body.nodes[costumeNumber].childImageSharp.fixed.src} />
+        <Head
+          ref={headRef}
+          src={data.head.nodes[costumeNumber].childImageSharp.fixed.src}
+        />
         <RightHand
           ref={rightHandRef}
-          src={data.hand.childImageSharp.fixed.src}
+          src={data.hand.nodes[costumeNumber].childImageSharp.fixed.src}
         />
-        <RightLeg ref={rightLegRef} src={data.leg.childImageSharp.fixed.src} />
-        <LeftHand ref={leftHandRef} src={data.hand.childImageSharp.fixed.src} />
-        <LeftLeg ref={leftLegRef} src={data.leg.childImageSharp.fixed.src} />
+        <RightLeg
+          ref={rightLegRef}
+          src={data.leg.nodes[costumeNumber].childImageSharp.fixed.src}
+        />
+        <LeftHand
+          ref={leftHandRef}
+          src={data.hand.nodes[costumeNumber].childImageSharp.fixed.src}
+        />
+        <LeftLeg
+          ref={leftLegRef}
+          src={data.leg.nodes[costumeNumber].childImageSharp.fixed.src}
+        />
       </CharacterWrapper>
     </Wrapper>
   );

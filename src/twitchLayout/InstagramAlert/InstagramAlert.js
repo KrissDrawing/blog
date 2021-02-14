@@ -118,7 +118,6 @@ const InstagramAlert = () => {
               : "https://scontent-frt3-2.cdninstagram.com/v/t51.2885-19/s150x150/144746383_1007370053122836_7157578032433989886_n.jpg?_nc_ht=scontent-frt3-2.cdninstagram.com&_nc_ohc=G17L_hN-c7EAX-w7dhC&tp=1&oh=1ad71cc7f0d6ebd021fefe9f6f86587d&oe=60421E1E"
           }
         />
-
         <UserName>
           <SiInstagram />
           <h3>@krissdrawing</h3>
