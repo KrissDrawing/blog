@@ -102,6 +102,8 @@ const Character = ({ name, color, roll, ...props }) => {
   useEffect(() => {
     if (data)
       setCostumeNumber(Math.floor(Math.random() * data.head.nodes.length));
+    if (name.toLowerCase() === "mrkretrl") setCostumeNumber(4);
+    if (name.toLowerCase() === "xzagaxx") setCostumeNumber(3);
     const body = bodyRef.current;
     const head = headRef.current;
     const rightHand = rightHandRef.current;

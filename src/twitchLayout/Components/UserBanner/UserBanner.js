@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { useStaticQuery, graphql } from "gatsby";
 import styled from "styled-components";
+import { trimString } from "../../../utilities/utilities";
 
 const Wrapper = styled.div`
   background-color: ${({ color }) => color};
@@ -12,7 +13,7 @@ const Wrapper = styled.div`
   border-radius: 5px;
   border: 2px solid white;
   font-weight: bold;
-  font-size: 16px;
+  font-size: ${({ count }) => (count > 12 ? 20 - count * 0.5 + "px" : "16px")};
   box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.3);
   & > p {
     margin: 0;
@@ -43,11 +44,15 @@ const UserBanner = ({ color, name, sub }) => {
   });
 
   return (
-    <Wrapper color={color} ref={bannerRef}>
+    <Wrapper
+      color={color}
+      ref={bannerRef}
+      count={name.length > 16 ? 16 : name.length}
+    >
       {sub === true ? (
         <Crown src={data.subCrown.childImageSharp.fixed.src} />
       ) : null}
-      <p>{name}</p>
+      <p>{trimString(name, 16)}</p>
     </Wrapper>
   );
 };
