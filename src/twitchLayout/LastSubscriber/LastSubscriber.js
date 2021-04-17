@@ -33,7 +33,6 @@ const GET_LAST_SUBSCRIBER = gql`
 
 const LastSubscriber = () => {
   const { loading, __, data } = useQuery(GET_LAST_SUBSCRIBER);
-  const [lastSubInfo, setLastSubInfo] = useState([]);
 
   return (
     <Wrapper>

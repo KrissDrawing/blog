@@ -154,8 +154,28 @@ const Character = ({ name, color, roll, ...props }) => {
     });
   }, []);
 
+  let test = false;
+
+  useEffect(() => {
+    if (test === false) {
+      const leftHand = leftHandRef.current;
+      gsap.set(leftHand, {
+        transformOrigin: "50% 25%",
+        rotation: "-60",
+      });
+      gsap.to(leftHand, {
+        rotation: "random(220, 280, 1)",
+        duration: "0.1",
+        ease: "none",
+        repeatRefresh: true,
+        repeat: 30,
+      });
+    }
+  }, [test]);
+
   return (
     <Wrapper>
+      <button onClick={() => (test = true)}>test</button>
       <UserBanner name={name} color={color} {...props} />
       <CharacterWrapper ref={bodyRef}>
         <Body src={data.body.nodes[costumeNumber].childImageSharp.fixed.src} />
