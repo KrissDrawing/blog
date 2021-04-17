@@ -19,7 +19,7 @@ const twitchLayout = () => {
       <InstagramAlert />
       <TwitchFollowAlert />
       <Characters />
-      {/* <LastSubscriber /> */}
+      <LastSubscriber />
     </Wrapper>
   );
 };
