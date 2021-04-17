@@ -88,9 +88,24 @@ const LeftLeg = styled.img`
   z-index: -1;
 `;
 
+const HelloText = styled.p`
+  margin: 0;
+  position: absolute;
+  font-size: 40px;
+  font-weight: bold;
+  color: white;
+  z-index: 1;
+  top: 50%;
+  left: 0;
+  text-shadow: 2px 2px 10px black;
+`;
+
+const welcomePhrases = ["Siema", "Hi", "Elo", "Hello", "Siemson", "Siemka"];
+
 const Character = ({ name, color, roll, ...props }) => {
   const data = useStaticQuery(query);
   const [costumeNumber, setCostumeNumber] = useState(0);
+  const [waveTrigger, setWaveTrigger] = useState(false);
 
   const bodyRef = useRef(null);
   const headRef = useRef(null);
@@ -99,17 +114,23 @@ const Character = ({ name, color, roll, ...props }) => {
   const leftHandRef = useRef(null);
   const leftLegRef = useRef(null);
 
+  const helloRef = useRef(null);
+
   useEffect(() => {
     if (data)
       setCostumeNumber(Math.floor(Math.random() * data.head.nodes.length));
     if (name.toLowerCase() === "mrkretrl") setCostumeNumber(4);
     if (name.toLowerCase() === "xzagaxx") setCostumeNumber(3);
+  }, []);
+
+  useEffect(() => {
     const body = bodyRef.current;
     const head = headRef.current;
     const rightHand = rightHandRef.current;
     const rightLeg = rightLegRef.current;
     const leftHand = leftHandRef.current;
     const leftLeg = leftLegRef.current;
+    const hello = helloRef.current;
 
     gsap.set(head, { transformOrigin: "40% 75%" });
     gsap.set(rightHand, { transformOrigin: "50% 25%" });
@@ -144,38 +165,64 @@ const Character = ({ name, color, roll, ...props }) => {
       rotation: "random(-50, 10, 5)",
       duration: "random(4, 6, 1)",
     });
-    gsap.to(leftHand, {
-      rotation: "random(-40, -80, 5)",
-      duration: "random(4, 6, 1)",
-    });
+
     gsap.to(leftLeg, {
       rotation: "random(0, -70, 5)",
       duration: "random(4, 6, 1)",
     });
-  }, []);
 
-  let test = false;
-
-  useEffect(() => {
-    if (test === false) {
-      const leftHand = leftHandRef.current;
-      gsap.set(leftHand, {
-        transformOrigin: "50% 25%",
-        rotation: "-60",
-      });
+    if (waveTrigger === false) {
       gsap.to(leftHand, {
-        rotation: "random(220, 280, 1)",
-        duration: "0.1",
-        ease: "none",
-        repeatRefresh: true,
-        repeat: 30,
+        rotation: "random(-40, -80, 5)",
+        duration: "random(4, 6, 1)",
       });
     }
-  }, [test]);
+    if (waveTrigger === true) {
+      const tlHello = gsap.timeline({
+        ease: "Power1.easeInOut",
+      });
+      tlHello
+        .fromTo(
+          hello,
+          {
+            duration: 0.5,
+            scale: 0,
+          },
+          { scale: 1, repeat: 0 }
+        )
+        .fromTo(
+          hello,
+          { duration: 0.5, scale: 1 },
+          {
+            repeat: 0,
+            scale: 0,
+          },
+          "4"
+        );
+      gsap.defaults({ repeat: 1 });
+      const tlWave = gsap.timeline({
+        ease: "Power1.easeInOut",
+        repeat: 30,
+        repeatRefresh: true,
+      });
+      tlWave
+        .to(leftHand, {
+          rotation: "-140",
+          duration: "0.02",
+        })
+        .to(leftHand, {
+          rotation: "-100",
+          duration: "0.02",
+        });
+      setTimeout(() => {
+        setWaveTrigger(false);
+      }, 5000);
+    }
+  }, [waveTrigger]);
 
   return (
     <Wrapper>
-      <button onClick={() => (test = true)}>test</button>
+      <button onClick={() => setWaveTrigger(true)}>waveTrigger</button>
       <UserBanner name={name} color={color} {...props} />
       <CharacterWrapper ref={bodyRef}>
         <Body src={data.body.nodes[costumeNumber].childImageSharp.fixed.src} />
@@ -199,6 +246,11 @@ const Character = ({ name, color, roll, ...props }) => {
           ref={leftLegRef}
           src={data.leg.nodes[costumeNumber].childImageSharp.fixed.src}
         />
+        {waveTrigger === true ? (
+          <HelloText ref={helloRef}>
+            {welcomePhrases[Math.floor(Math.random() * welcomePhrases.length)]}
+          </HelloText>
+        ) : null}
       </CharacterWrapper>
     </Wrapper>
   );
