@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useStaticQuery, graphql } from "gatsby";
+import { gql, useSubscription } from "@apollo/client";
 import { gsap } from "gsap";
 import styled from "styled-components";
 import UserBanner from "../Components/UserBanner/UserBanner";
@@ -42,6 +43,12 @@ const query = graphql`
         }
       }
     }
+  }
+`;
+
+const HELLO_SUBSCRIPTION = gql`
+  subscription {
+    subscribeHelloReward(topic: "helloTrigger")
   }
 `;
 
@@ -102,10 +109,11 @@ const HelloText = styled.p`
 
 const welcomePhrases = ["Siema", "Hi", "Elo", "Hello", "Siemson", "Siemka"];
 
-const Character = ({ name, color, roll, ...props }) => {
+const Character = ({ name, color, costume, roll, ...props }) => {
   const data = useStaticQuery(query);
   const [costumeNumber, setCostumeNumber] = useState(0);
   const [waveTrigger, setWaveTrigger] = useState(false);
+  const { data: helloData = false } = useSubscription(HELLO_SUBSCRIPTION);
 
   const bodyRef = useRef(null);
   const headRef = useRef(null);
@@ -117,11 +125,19 @@ const Character = ({ name, color, roll, ...props }) => {
   const helloRef = useRef(null);
 
   useEffect(() => {
-    if (data)
-      setCostumeNumber(Math.floor(Math.random() * data.head.nodes.length));
+    if (data && costume) setCostumeNumber(costume);
     if (name.toLowerCase() === "mrkretrl") setCostumeNumber(4);
     if (name.toLowerCase() === "xzagaxx") setCostumeNumber(3);
-  }, []);
+    console.log("this stuff is not triggering");
+  }, [costume]);
+
+  useEffect(() => {
+    if (helloData) {
+      setTimeout(() => {
+        setWaveTrigger(helloData.subscribeHelloReward);
+      }, 1000);
+    }
+  }, [helloData]);
 
   useEffect(() => {
     const body = bodyRef.current;
@@ -222,7 +238,6 @@ const Character = ({ name, color, roll, ...props }) => {
 
   return (
     <Wrapper>
-      <button onClick={() => setWaveTrigger(true)}>waveTrigger</button>
       <UserBanner name={name} color={color} {...props} />
       <CharacterWrapper ref={bodyRef}>
         <Body src={data.body.nodes[costumeNumber].childImageSharp.fixed.src} />

@@ -1,11 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { gql, useMutation, useSubscription, useQuery } from "@apollo/client";
 import { graphql, useStaticQuery } from "gatsby";
+import { gsap } from "gsap";
 import styled from "styled-components";
-import { trimString } from "../../utilities/utilities";
 import Character from "../Character/Character";
 
 const Wrapper = styled.div`
+  width: 300px;
   display: flex;
   align-items: center;
   position: absolute;
@@ -53,14 +54,13 @@ const POINTS_SUBSCRIPTION = gql`
       rewardPrompt
       userDisplayName
       rewardCost
+      id
     }
   }
 `;
 
 const Characters = () => {
-  const { data: pointsData = "", loading } = useSubscription(
-    POINTS_SUBSCRIPTION
-  );
+  const { data: pointsData = "" } = useSubscription(POINTS_SUBSCRIPTION);
   const { loading: loadingQueue, __, data: startQueue } = useQuery(GET_QUEUE);
   const data = useStaticQuery(query);
   const [reward, setReward] = useState([]);
@@ -76,9 +76,16 @@ const Characters = () => {
   }, [startQueue]);
 
   useEffect(() => {
-    console.log(pointsData);
-    if (pointsData && pointsData.subscribePoints.userDisplayName)
-      setReward(prevState => [...prevState, pointsData]);
+    if (pointsData?.subscribePoints?.userDisplayName)
+      setReward(prevState => [
+        ...prevState,
+        {
+          subscribePoints: {
+            ...pointsData.subscribePoints,
+            costume: Math.floor(Math.random() * 5),
+          },
+        },
+      ]);
   }, [pointsData]);
 
   useEffect(() => {
@@ -101,6 +108,7 @@ const Characters = () => {
                 Math.floor(Math.random() * (255 - 1 + 1)) + 1
               }, 100%, 50%)`}
               name={item.subscribePoints.userDisplayName}
+              costume={item.subscribePoints.costume}
             />
             <PointsWrapper>
               <p>-{item.subscribePoints.rewardCost}</p>
