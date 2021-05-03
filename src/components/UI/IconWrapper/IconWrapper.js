@@ -10,6 +10,7 @@ const Wrapper = styled.div`
   border: 2px solid black;
   background-color: white;
   padding: 10px;
+  margin: 2px;
   transition: transform 0.2s ease-out;
 
   &:hover {

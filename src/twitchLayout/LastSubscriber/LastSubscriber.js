@@ -38,7 +38,7 @@ const LastSubscriber = () => {
     <Wrapper>
       <InfoWrapper>
         <p>Ostatni Sub:</p>
-        <p>Subów: {data?.lastSub.count - 1}</p>
+        <p>Subów: {data?.lastSub.count - 1}/15</p>
       </InfoWrapper>
       {!loading ? (
         <Character sub={true} color="#fcba03" name={data.lastSub.name} />

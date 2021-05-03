@@ -2,7 +2,8 @@ import React, { useEffect, useRef } from "react";
 import Navigation from "../components/Navigation/Navigation";
 import Image from "gatsby-image";
 import styled from "styled-components";
-import PortfolioCard from "../components/PortfolioCard/PortfolioCard";
+import PortfolioCard from "../components/Portfolio/PortfolioCard";
+import PortfolioSkills from "../components/Portfolio/PortfolioSkills";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ContactForm from "../components/ContactForm/ContactForm";
@@ -12,7 +13,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* background-image: url(${({ bg }) => bg}); */
 `;
 
 const Background = styled.div`
@@ -37,10 +37,16 @@ const CardWrapper = styled.div`
   z-index: 2;
 `;
 const Header = styled.h2`
-  font-size: 100px;
-  margin-top: -100px;
+  font-size: 50px;
   z-index: 1;
+  text-shadow: 3px 3px 10px black;
   color: white;
+  margin-top: -100px;
+
+  @media (min-width: 768px) {
+    font-size: 100px;
+    margin-top: -150px;
+  }
 `;
 
 const HeadingImage = styled(Image)`
@@ -102,18 +108,6 @@ const Portfolio = ({ data }) => {
         },
       }
     );
-    gsap.fromTo(
-      heading,
-      { y: -100 },
-      {
-        yPercent: 150,
-        ease: "none",
-        scrollTrigger: {
-          trigger: wrapper,
-          scrub: true,
-        },
-      }
-    );
     cards.forEach((card, i) => {
       if (i > 0) {
         gsap.fromTo(
@@ -132,10 +126,9 @@ const Portfolio = ({ data }) => {
         );
       }
       gsap.to(card, {
-        autoAlpha: 0,
         scrollTrigger: {
           trigger: card,
-          start: "top top", // the default values
+          start: "top top",
           end: "bottom top",
           scrub: true,
         },
@@ -146,13 +139,15 @@ const Portfolio = ({ data }) => {
     <Wrapper bg={data.portfoliobg.childImageSharp.fixed.src} ref={wrapperRef}>
       <Navigation />
       <HeadingImage fluid={data.headingImage.childImageSharp.fluid} />
-      <Header ref={headingRef}>Projects</Header>
+      <Header ref={headingRef}>Projekty</Header>
       {projects.map((project, i) => (
         <CardWrapper key={i} ref={el => (cardsRef.current[i] = el)}>
           <PortfolioCard index={i} project={project} />
         </CardWrapper>
       ))}
       <Background url={data.portfoliobg.childImageSharp.fixed.src} />
+      <Header>Umiejętności</Header>
+      <PortfolioSkills />
       <ContactForm />
     </Wrapper>
   );

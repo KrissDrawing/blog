@@ -23,23 +23,32 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   display: flex;
+  padding: 10px 20px;
+  margin: 20px;
   flex-direction: column;
   align-items: center;
-  /* justify-content: center; */
-  margin: 20px;
+  background-color: darkGray;
+  border: 2px solid black;
+  box-shadow: 2px 2px 40px 2px rgba(0, 0, 0, 0.7);
   margin-bottom: 50px;
 `;
 
 const Header = styled.h3`
   color: white;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
-  margin: 10px;
+  margin-bottom: 10px;
 `;
 
 const IconsWrapper = styled.section`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+`;
+
+const Divider = styled.hr`
+  width: 100%;
+  height: 2px;
+  margin: 4px 0;
 `;
 
 const PortfolioSkills = () => {
@@ -59,7 +68,7 @@ const PortfolioSkills = () => {
           name="CSS/Sass"
         />
         <IconWrapper icon={<SiJavascript />} name="ES6+" />
-        <IconWrapper icon={<SiTypescript />} name="Typescript" />
+        {/* <IconWrapper icon={<SiTypescript />} name="Typescript" /> */}
         <IconWrapper
           icon={
             <>
@@ -73,12 +82,14 @@ const PortfolioSkills = () => {
         <IconWrapper icon={<SiGatsby />} name="Gatsby" />
         <IconWrapper icon={<SiStyledComponents />} name="Styled-components" />
       </IconsWrapper>
+      <Divider />
       <Header>backend </Header>
       <IconsWrapper>
         <IconWrapper icon={<IoLogoNodejs />} name="Node.js" />
         <IconWrapper icon={<SiGraphql />} name="GraphQL" />
         <IconWrapper icon={<SiFirebase />} name="Firebase" />
       </IconsWrapper>
+      <Divider />
       <Header>Grafika </Header>
       <IconsWrapper>
         <IconWrapper icon={<SiAdobephotoshop />} name="Photoshop" />
