@@ -54,7 +54,7 @@ const Divider = styled.hr`
 const PortfolioSkills = () => {
   return (
     <Wrapper>
-      <Header>FrontEnd </Header>
+      <Header>Frontend </Header>
       <IconsWrapper>
         <IconWrapper icon={<SiHtml5 />} name="HTML" />
         <IconWrapper
@@ -83,7 +83,7 @@ const PortfolioSkills = () => {
         <IconWrapper icon={<SiStyledComponents />} name="Styled-components" />
       </IconsWrapper>
       <Divider />
-      <Header>backend </Header>
+      <Header>Backend </Header>
       <IconsWrapper>
         <IconWrapper icon={<IoLogoNodejs />} name="Node.js" />
         <IconWrapper icon={<SiGraphql />} name="GraphQL" />

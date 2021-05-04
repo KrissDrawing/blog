@@ -45,7 +45,7 @@ const Header = styled.h2`
 
   @media (min-width: 768px) {
     font-size: 100px;
-    margin-top: -150px;
+    margin-top: -10s0px;
   }
 `;
 
@@ -58,19 +58,19 @@ const HeadingImage = styled(Image)`
 const Portfolio = ({ data }) => {
   const projects = [
     {
-      title: "Taste Experience",
-      tech: "ts, react, firebase - (auth, firestore, functions), redux",
-      desc: `Aplikacja do planowania zadań i odmierzania 5 minutowych interwałów.
-      Umożliwia logowanie w celu zapisu tasków`,
-      code: "https://github.com/KrissDrawing/golden-rule",
-      live: "https://krissdrawing.github.io/golden-rule/#/",
-      img: data.fivemin.childImageSharp.fixed,
+      title: "Twitch stream - overlay",
+      tech:
+        "js, gatsby, gsap, graphql, firestore, node, apollo-server-express, twitch api",
+      desc: `Aplikacja do odczytywania eventów z twitch.tv (follow, subskrypcja), chat bot oraz nakładka na stream obrazująca dane eventy przy pomocy animowanych postaci.`,
+      code: "https://github.com/KrissDrawing/KrissDrawing-twitch-server",
+      live: "https://www.twitch.tv/krissdrawing",
+      img: data.twitchOverlay.childImageSharp.fixed,
     },
     {
       title: "CrossyRoad Wannabe",
       tech: "js, three.js, firebase functions",
-      desc: `Kopia popularnej gry CrossyRoad zrobiona w three.js. Wyniki zapisywane są w firestore obbsługiwane przy pomocy cloud functions.
-      Projekt treningowy, zawiera błędy i niedopracowaną grafikę.
+      desc: `Kopia popularnej gry CrossyRoad zrobiona w three.js. Wyniki zapisywane są w firestore przy pomocy cloud functions.
+      Projekt treningowy.
       Sterowanie WSAD`,
       code: "https://github.com/KrissDrawing/CrossyRoadWannabe",
       live: "https://crossyroadwannabe.web.app/",
@@ -85,7 +85,6 @@ const Portfolio = ({ data }) => {
       live: "https://krissdrawing.github.io/golden-rule/#/",
       img: data.fivemin.childImageSharp.fixed,
     },
-    4,
   ];
   const cardsRef = useRef([]);
   const wrapperRef = useRef(null);
@@ -177,6 +176,13 @@ export const query = graphql`
       }
     }
     fivemin: file(name: { eq: "5minrule" }) {
+      childImageSharp {
+        fixed(width: 700) {
+          ...GatsbyImageSharpFixed_tracedSVG
+        }
+      }
+    }
+    twitchOverlay: file(name: { eq: "twitchOverlay" }) {
       childImageSharp {
         fixed(width: 700) {
           ...GatsbyImageSharpFixed_tracedSVG

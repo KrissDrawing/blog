@@ -32,10 +32,11 @@ const ButtonsWrapper = styled.div`
 
 const StyledImage = styled(Image)`
   border: 2px solid black;
-  width: 80% !important;
+  width: 100% !important;
   height: 300px !important;
   object-fit: contain;
   box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.4);
+  margin-top: 10px;
 
   @media (min-width: 768px) {
     width: 50% !important;
@@ -45,12 +46,13 @@ const StyledImage = styled(Image)`
 
 const InfoWrapper = styled.div`
   width: 100%;
-  height: 300px;
+  min-height: 300px;
   padding-right: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: space-around;
+
   @media (min-width: 768px) {
     width: 50%;
     height: 500px;
@@ -58,10 +60,10 @@ const InfoWrapper = styled.div`
 `;
 const Description = styled.p`
   display: block;
-  height: 40%;
+  min-height: 40%;
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
-  margin: 0;
+  margin: 10px 0;
   padding: 10px;
 `;
 
@@ -89,7 +91,6 @@ const PortfolioCard = ({
           <Technologies>{tech}</Technologies>
         </div>
         <Description>{desc}</Description>
-
         <ButtonsWrapper>
           <LinkButton href={code} text="code" icon={<FaGithub />} />
           {live ? (

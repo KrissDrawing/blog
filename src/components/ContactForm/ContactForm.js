@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { buttonStyle } from "../../layouts/elements";
 
 const Wrapper = styled.div`
   background-color: #483c63;
@@ -10,6 +11,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   border: 2px solid white;
+  margin: 20px 0 60px 0;
 
   @media (min-width: 1000px) {
     width: 70%;
@@ -38,6 +40,7 @@ const Form = styled.form`
 const SubmitButton = styled.button`
   width: 200px;
   margin: 20px auto;
+  ${buttonStyle}
 `;
 
 const ContactForm = () => {
@@ -48,10 +51,10 @@ const ContactForm = () => {
         <input type="hidden" name="bot-field" />
         <input type="hidden" name="form-name" value="contact" />
         <label htmlFor="email">Twój email:</label>
-        <input type="email" name="email" />
+        <input type="email" name="email" required />
         <label htmlFor="message">Wiadomość:</label>
-        <textarea rows="6" name="message"></textarea>
-        <SubmitButton type="submit">Send</SubmitButton>
+        <textarea rows="6" name="message" required></textarea>
+        <SubmitButton type="submit">Wyślij</SubmitButton>
       </Form>
     </Wrapper>
   );
