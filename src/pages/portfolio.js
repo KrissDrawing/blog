@@ -70,8 +70,8 @@ const Portfolio = ({ data }) => {
       title: "Personal Webpage",
       tech: "js, gatsby, gsap, DatoCMS",
       desc: `Personalna strona internetowa połączona z blogiem i portfolio. Dotatkowo UI do sterowania oświetleniem i overlay streama na twitch.tv`,
-      code: "https://github.com/KrissDrawing/golden-rule",
-      live: "https://krissdrawing.github.io/golden-rule/#/",
+      code: "https://github.com/KrissDrawing/blog",
+      live: "https://krissdrawing.pl/",
       img: data.blogMain.childImageSharp.fixed,
     },
     {
@@ -80,8 +80,8 @@ const Portfolio = ({ data }) => {
       desc: `Kopia popularnej gry CrossyRoad zrobiona w three.js. Wyniki zapisywane są w firestore przy pomocy cloud functions.
       Projekt treningowy.
       Sterowanie WSAD`,
-      code: "https://github.com/KrissDrawing/blog",
-      live: "https://krissdrawing.pl/",
+      code: "https://github.com/KrissDrawing/CrossyRoadWannabe",
+      live: "https://crossyroadwannabe.web.app/",
       img: data.crossyRoad.childImageSharp.fixed,
     },
     {
