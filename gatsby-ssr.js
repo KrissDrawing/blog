@@ -9,7 +9,7 @@ import { apolloClient } from "./src/gatsby-theme-apollo/client";
 import { ApolloProvider } from "@apollo/client";
 
 export const wrapRootElement = ({ Root }) => {
-  if (!apolloClient) return <Root />;
+  if (!apolloClient) return <h3>Loading...</h3>;
   return (
     <ApolloProvider client={apolloClient}>
       <Root />

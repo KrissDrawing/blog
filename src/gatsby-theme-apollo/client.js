@@ -5,7 +5,7 @@ import { WebSocketLink } from "@apollo/client/link/ws";
 
 const wsLink = process.browser
   ? new WebSocketLink({
-      uri: `ws://192.168.1.48:3000/graphql`,
+      uri: `wss://192.168.1.48:3000/graphql`,
       options: {
         reconnect: true,
       },
