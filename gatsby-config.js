@@ -34,7 +34,6 @@ module.exports = {
           "PAGE_URL",
           "TWITCH_OAUTH_POINTS",
           "TWITCH_CHANNEL_ID",
-          "FIREBASE_API",
           "GIPHLY_KEY",
         ],
       },
