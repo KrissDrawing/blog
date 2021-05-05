@@ -67,13 +67,21 @@ const Portfolio = ({ data }) => {
       img: data.twitchOverlay.childImageSharp.fixed,
     },
     {
+      title: "Personal Webpage",
+      tech: "js, gatsby, gsap, DatoCMS",
+      desc: `Personalna strona internetowa połączona z blogiem i portfolio. Dotatkowo UI do sterowania oświetleniem i overlay streama na twitch.tv`,
+      code: "https://github.com/KrissDrawing/golden-rule",
+      live: "https://krissdrawing.github.io/golden-rule/#/",
+      img: data.blogMain.childImageSharp.fixed,
+    },
+    {
       title: "CrossyRoad Wannabe",
       tech: "js, three.js, firebase functions",
       desc: `Kopia popularnej gry CrossyRoad zrobiona w three.js. Wyniki zapisywane są w firestore przy pomocy cloud functions.
       Projekt treningowy.
       Sterowanie WSAD`,
-      code: "https://github.com/KrissDrawing/CrossyRoadWannabe",
-      live: "https://crossyroadwannabe.web.app/",
+      code: "https://github.com/KrissDrawing/blog",
+      live: "https://krissdrawing.pl/",
       img: data.crossyRoad.childImageSharp.fixed,
     },
     {
@@ -183,6 +191,13 @@ export const query = graphql`
       }
     }
     twitchOverlay: file(name: { eq: "twitchOverlay" }) {
+      childImageSharp {
+        fixed(width: 700) {
+          ...GatsbyImageSharpFixed_tracedSVG
+        }
+      }
+    }
+    blogMain: file(name: { eq: "blogMain" }) {
       childImageSharp {
         fixed(width: 700) {
           ...GatsbyImageSharpFixed_tracedSVG
