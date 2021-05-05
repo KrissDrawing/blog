@@ -6,10 +6,10 @@
 
 import React from "react";
 import { apolloClient } from "./src/gatsby-theme-apollo/client";
-import {  ApolloProvider } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
 
 export const wrapRootElement = ({ Root }) => {
-  if (!apolloClient) return <h3>Loading...</h3>;
+  if (!apolloClient) return <Root />;
   return (
     <ApolloProvider client={apolloClient}>
       <Root />
