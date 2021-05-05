@@ -19,7 +19,7 @@ Page made in Gatsby for representative and training purposes. Blog data is updat
 
 ## Screenshots
 
-![main page](./img/blogMain.png)
+![main page](./img/blogMain.PNG)
 
 ## Technologies
 
@@ -37,11 +37,11 @@ Page made in Gatsby for representative and training purposes. Blog data is updat
 
 ## Light controlls UI
 
-![light controlls UI](./img/lightControlls.png)
+![light controlls UI](./img/lightControlls.PNG)
 
 ## Twitch overlay
 
-![Twitch overlay](./img/twitchOverlay.png)
+![Twitch overlay](./img/twitchOverlay.PNG)
 
 ## Server side
 
