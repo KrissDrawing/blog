@@ -98,7 +98,7 @@ const BlogCard = ({ item, i }) => {
       </ArticleTitle>
       <BreakLine />
       <CategoryDate>
-        <p>Added: {new Date(item.date).toLocaleString()}</p>
+        <p>Dodano: {new Date(item.date).toLocaleString()}</p>
         <Category category={item.category} />
       </CategoryDate>
       <Abstract>{trimString(item.abstract, 140)}</Abstract>

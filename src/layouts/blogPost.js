@@ -79,6 +79,17 @@ const Abstract = styled.p`
   padding: 10px;
 `;
 
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Img = styled.img`
+  max-height: 500px;
+  object-fit: contain;
+  justify-self: center;
+`;
+
 const blogPost = ({ data, pageContext }) => {
   return (
     <Layout>
@@ -88,14 +99,11 @@ const blogPost = ({ data, pageContext }) => {
           <FeaturedImage src={data.datoCmsArticle.featuredimage.url} />
           <h3>{data.datoCmsArticle.title}</h3>
           <CategoryDate large>
-            <p>{data.datoCmsArticle.date}</p>
+            <p>{new Date(data.datoCmsArticle.date).toLocaleString()}</p>
             <Category category={data.datoCmsArticle.category} />
           </CategoryDate>
-          <Abstract>
-            Streszczenie
-            {data.datoCmsArticle.abstract}
-          </Abstract>
-          <div>
+          <Abstract>{data.datoCmsArticle.abstract}</Abstract>
+          <ContentWrapper>
             {data.datoCmsArticle.articleContent.map(item => {
               const itemKey = Object.keys(item)[1];
 
@@ -105,12 +113,12 @@ const blogPost = ({ data, pageContext }) => {
                 case "headingContent":
                   return <h3 key={item.id}>{item[itemKey]}</h3>;
                 case "imageContent":
-                  return <img key={item.id} src={item[itemKey].url} />;
+                  return <Img key={item.id} src={item[itemKey].url} />;
                 default:
                   return null;
               }
             })}
-          </div>
+          </ContentWrapper>
           {pageContext.nextPostSlug === null ? null : (
             <ArticleBanner
               item={{ ...data.next, slug: pageContext.nextPostSlug }}
