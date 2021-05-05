@@ -7,7 +7,7 @@ const wsLink = process.browser
   ? new WebSocketLink({
       uri: `wss://192.168.1.48:3000/graphql`,
       options: {
-        reconnect: true,
+        reconnect: false,
       },
     })
   : null;
