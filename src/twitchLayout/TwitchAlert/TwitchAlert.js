@@ -34,7 +34,10 @@ const FOLLOWER_SUBSCRIPTION = gql`
 `;
 const LAST_FOLLOWER = gql`
   {
-    follow
+    follow {
+      name
+      count
+    }
   }
 `;
 
@@ -84,7 +87,7 @@ const TwitchAlert = () => {
           <Character
             roll
             color="black"
-            name={data ? data.subscribeFollow : lastFollower.follow}
+            name={data ? data.subscribeFollow?.name : lastFollower.follow?.name}
           />
         ) : null}
       </CharacterWrapper>
