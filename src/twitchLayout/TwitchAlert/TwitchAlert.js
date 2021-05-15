@@ -7,19 +7,6 @@ import ProgressBar from "../ProgressBar/ProgressBar";
 
 const Wrapper = styled.div``;
 
-const CharacterWrapper = styled.div`
-  transform: scale(0.8);
-  position: absolute;
-  display: flex;
-  align-items: center;
-  bottom: 0;
-  right: 50vw;
-
-  & > h4 {
-    margin: 0 10px;
-    color: white;
-  }
-`;
 const Img = styled.img`
   position: absolute;
   display: flex;
@@ -44,7 +31,6 @@ const LAST_FOLLOWER = gql`
 `;
 
 const TwitchAlert = () => {
-  const wrapperRef = useRef(null);
   const isInitialMount = useRef(true);
   const [gif, setGif] = useState("");
   const [displayGif, setDisplayGif] = useState(false);
@@ -84,24 +70,14 @@ const TwitchAlert = () => {
   return (
     <Wrapper>
       {!loadingLastFollow && lastFollower ? (
-        <>
-          <ProgressBar
-            amount={
-              data ? data.subscribeFollow?.count : lastFollower.follow?.count
-            }
-            goal="1500"
-          />
-          <CharacterWrapper ref={wrapperRef}>
-            <h4>Nowy follower:</h4>
-            <Character
-              roll
-              color="black"
-              name={
-                data ? data.subscribeFollow?.name : lastFollower.follow?.name
-              }
-            />
-          </CharacterWrapper>
-        </>
+        <ProgressBar
+          name={data ? data.subscribeFollow?.name : lastFollower.follow?.name}
+          amount={
+            data ? data.subscribeFollow?.count : lastFollower.follow?.count
+          }
+          title="1500 follow"
+          goal="1500"
+        />
       ) : null}
       {displayGif && <Img src={gif} />}
     </Wrapper>
