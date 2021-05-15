@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { gql, useSubscription, useQuery } from "@apollo/client";
-import Character from "../Character/Character";
 import ProgressBar from "../ProgressBar/ProgressBar";
 
 const Wrapper = styled.div``;
