@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { gql, useSubscription, useQuery } from "@apollo/client";
 import Character from "../Character/Character";
+import ProgressBar from "../ProgressBar/ProgressBar";
 
 const Wrapper = styled.div``;
 
@@ -12,6 +13,7 @@ const CharacterWrapper = styled.div`
   display: flex;
   align-items: center;
   bottom: 0;
+  right: 50vw;
 
   & > h4 {
     margin: 0 10px;
@@ -81,16 +83,26 @@ const TwitchAlert = () => {
 
   return (
     <Wrapper>
-      <CharacterWrapper ref={wrapperRef}>
-        <h4>Nowy follower:</h4>
-        {!loadingLastFollow && lastFollower ? (
-          <Character
-            roll
-            color="black"
-            name={data ? data.subscribeFollow?.name : lastFollower.follow?.name}
+      {!loadingLastFollow && lastFollower ? (
+        <>
+          <ProgressBar
+            amount={
+              data ? data.subscribeFollow?.count : lastFollower.follow?.count
+            }
+            goal="1500"
           />
-        ) : null}
-      </CharacterWrapper>
+          <CharacterWrapper ref={wrapperRef}>
+            <h4>Nowy follower:</h4>
+            <Character
+              roll
+              color="black"
+              name={
+                data ? data.subscribeFollow?.name : lastFollower.follow?.name
+              }
+            />
+          </CharacterWrapper>
+        </>
+      ) : null}
       {displayGif && <Img src={gif} />}
     </Wrapper>
   );
