@@ -17,7 +17,10 @@ const Img = styled.img`
 
 const FOLLOWER_SUBSCRIPTION = gql`
   subscription {
-    subscribeFollow(topic: "followers")
+    subscribeFollow(topic: "followers") {
+      name
+      count
+    }
   }
 `;
 const LAST_FOLLOWER = gql`
