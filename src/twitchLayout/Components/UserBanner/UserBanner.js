@@ -6,7 +6,7 @@ import { trimString } from "../../../utilities/utilities";
 
 const Wrapper = styled.div`
   background-color: ${({ color }) => color};
-  color: white;
+  color: ${({ dark }) => (dark ? "#240046" : "#ff9e00")};
   width: 120px;
   display: flex;
   justify-content: center;
@@ -17,7 +17,6 @@ const Wrapper = styled.div`
   box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.3);
   & > p {
     margin: 0;
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 1);
   }
   position: relative;
 `;
@@ -48,6 +47,7 @@ const UserBanner = ({ color, name, sub }) => {
       color={color}
       ref={bannerRef}
       count={name.length > 16 ? 16 : name.length}
+      dark={sub}
     >
       {sub === true ? (
         <Crown src={data.subCrown.childImageSharp.fixed.src} />

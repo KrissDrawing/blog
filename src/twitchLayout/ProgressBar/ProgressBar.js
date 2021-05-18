@@ -94,7 +94,7 @@ const ProgressBar = ({
       <Progress progress={progressPositon}></Progress>
       <CharacterWrapper progress={progressPositon}>
         <h4>Nowy:</h4>
-        <Character color="#240046" name={name} />
+        <Character color="#240046" name={name} costume={4} />
       </CharacterWrapper>
     </Wrapper>
   );

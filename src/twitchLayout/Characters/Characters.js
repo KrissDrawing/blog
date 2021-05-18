@@ -104,9 +104,7 @@ const Characters = () => {
         item !== "" ? (
           <CharacterWrapper key={item + i}>
             <Character
-              color={`hsl(${
-                Math.floor(Math.random() * (255 - 1 + 1)) + 1
-              }, 100%, 50%)`}
+              color={"#7b2cbf"}
               name={item.subscribePoints.userDisplayName}
               costume={item.subscribePoints.costume}
             />

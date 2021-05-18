@@ -41,7 +41,7 @@ const LastSubscriber = () => {
         <p>Subów: {data?.lastSub.count - 1}/15</p>
       </InfoWrapper>
       {!loading ? (
-        <Character sub={true} color="#fcba03" name={data.lastSub.name} />
+        <Character sub={true} color="#ff9e00" name={data.lastSub.name} />
       ) : (
         <p>Ludzie! przecież tu nikogo nie ma!</p>
       )}
